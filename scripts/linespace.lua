@@ -16,7 +16,7 @@ function on_placed(x,y,z)
         editor.linespace(
             start_pos,
             {x, y, z},
-            get_block(x,y-1,z)
+            {get_block(x,y-1,z)}
         )
 
         put_block_line = 0 

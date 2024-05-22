@@ -20,6 +20,8 @@
     "sphere.item",
     "cylinder.item",
     "cuboid.item",
-    "replacement.item"
+    "replacement.item",
+    "bag",
+    "terraformer"
   ]
 }

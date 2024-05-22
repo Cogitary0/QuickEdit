@@ -1,4 +1,7 @@
 -- local vec3 = require("res:vector3")
+
+local tblu = require 'quickedit:table_utils'
+
 local editor = { 
     HALF_PI = 1.5707963267948966192, -- Pi / 2
     TWO_PI = 6.2831853071795864769, -- 2 * Pi
@@ -55,11 +58,12 @@ function editor.delete( pos1, pos2 )
 
 end
 
-function editor.fill( pos1, pos2, id )
+function editor.fill( pos1, pos2, use )
     local minX, maxX, minY, maxY, minZ, maxZ = __minmax__(pos1,pos2)
     for dy = minY, maxY, 1 do
         for dz = minZ, maxZ, 1 do
             for dx = minX, maxX, 1 do
+                local id = use[math.random(1, #use)]
                 if get_block(dx, dy, dz) ~= id then 
                     block.set(dx, dy, dz, id) 
                 end
@@ -69,7 +73,7 @@ function editor.fill( pos1, pos2, id )
 end
 
 
-function editor.linespace( pos1, pos2, id_block )
+function editor.linespace( pos1, pos2, use )
     local __x0, __y0, __z0 = pos1[1], pos1[2], pos1[3]
     local __x1, __y1, __z1 = pos2[1], pos2[2], pos2[3]
     local dx = __x1 - __x0
@@ -81,6 +85,7 @@ function editor.linespace( pos1, pos2, id_block )
     local stepZ = dz/max_dist
     local i = 1
     while (i <= max_dist) do
+        local id_block = use[math.random(1, #use)]
         block.set(
             __x0 + stepX * i, 
             __y0 + stepY * i, 
@@ -95,7 +100,7 @@ function editor.linespace( pos1, pos2, id_block )
 
     block.set(
         __x0, __y0, __z0,
-        id_block,
+        0,
         get_block_states(
                 __x0, __y0, __z0
             )
@@ -103,19 +108,21 @@ function editor.linespace( pos1, pos2, id_block )
 
     block.set(
         __x1, __y1, __z1,
-        id_block
+        0
     )
 end
 
-function editor.cuboid( pos1, pos2, id_block )
+function editor.cuboid( pos1, pos2, use )
     local __x0, __y0, __z0, __x1, __y1, __z1 = __get_selection_bounds__( pos1, pos2 )
     for dx = __x0, __x1 do
         for dz = __z0, __z1 do 
+            local id_block = use[math.random(1, #use)]
             block.set(dx, __y0, dz, id_block) 
             block.set(dx, __y1, dz, id_block) 
         end
 
         for dy = __y0 + 1, __y1 - 1 do 
+            local id_block = use[math.random(1, #use)]
             block.set(dx, dy, __z0, id_block)
             block.set(dx, dy, __z1, id_block) 
         end
@@ -123,6 +130,7 @@ function editor.cuboid( pos1, pos2, id_block )
 
     for dy = __y0 + 1, __y1 - 1 do
         for dz = __z0 + 1, __z1 - 1 do 
+            local id_block = use[math.random(1, #use)]
             block.set(__x0, dy, dz, id_block) 
             block.set(__x1, dy, dz, id_block) 
         end
@@ -130,7 +138,7 @@ function editor.cuboid( pos1, pos2, id_block )
 
 end
 
-function editor.circle( pos1, pos2, id_block )
+function editor.circle( pos1, pos2, use )
     
     local radius = __distance__(pos1, pos2)
     local __x, __y, __z = pos1[1], pos1[2], pos1[3]
@@ -140,6 +148,7 @@ function editor.circle( pos1, pos2, id_block )
 
     if math.abs(__y1 - __y) < 3 then
         for phi = 0, deltaPhi, precision do
+            local id_block = use[math.random(1, #use)]
             local phiRad = phi * editor.RADIAN
             local xx = __x + radius * math.cos(phiRad)
             local zz = __z + radius * math.sin(phiRad)
@@ -151,6 +160,7 @@ function editor.circle( pos1, pos2, id_block )
 
     elseif math.abs(__z1 - __z) > 3 then
         for phi = 0, deltaPhi, precision do
+            local id_block = use[math.random(1, #use)]
             local phiRad = phi * editor.RADIAN
             local xx = __x + radius * math.cos(phiRad)
             local yy = __y + radius * math.sin(phiRad)
@@ -162,6 +172,7 @@ function editor.circle( pos1, pos2, id_block )
 
     elseif math.abs(__x1 - __x) > 3 then 
         for phi = 0, deltaPhi, precision do
+            local id_block = use[math.random(1, #use)]
             local phiRad = phi * editor.RADIAN
             local yy = __y + radius * math.cos(phiRad)
             local zz = __z + radius * math.sin(phiRad)
@@ -172,12 +183,12 @@ function editor.circle( pos1, pos2, id_block )
         end
     end
 
-    block.set(__x1, __y1, __z1, id_block, 0)
+    block.set(__x1, __y1, __z1, 0, 0)
     block.set(__x, __y, __z, 0)
 
 end
 
-function editor.sphere( pos1, pos2, id_block )
+function editor.sphere( pos1, pos2, use )
     local __x0, __y0, __z0 = pos1[1], pos1[2], pos1[3]
     local __x1, __y1, __z1 = pos2[1], pos2[2], pos2[3]
     local radius = __distance__(pos1, pos2)
@@ -186,12 +197,13 @@ function editor.sphere( pos1, pos2, id_block )
     local delta_theta = 360 - precision
     local delta_phi = 180 - precision
 
-    block.set(__x1, __y1, __z1, id_block)
+    block.set(__x1, __y1, __z1, 0)
     block.set(__x0, __y0, __z0, 0)
     
     for theta = 0, delta_theta, precision do
         local theta_rad = theta * editor.RADIAN
         for phi = 0, delta_phi, precision do
+            local id_block = use[math.random(1, #use)]
             local phi_rad = phi * editor.RADIAN
             local __x = __x0 + (radius * math.sin(phi_rad) * math.cos(theta_rad))
             local __y = __y0 + (radius * math.sin(phi_rad) * math.sin(theta_rad))
@@ -205,7 +217,7 @@ function editor.sphere( pos1, pos2, id_block )
 end
 
 
-function editor.cylinder( pos1, pos2, id_block )
+function editor.cylinder( pos1, pos2, use )
     local __x0, __y0, __z0 = pos1[1], pos1[2], pos1[3]
     local __x1, __y1, __z1 = pos2[1], pos2[2], pos2[3]
     local __height = __round__(math.abs(__y1 - __y0))
@@ -221,7 +233,7 @@ function editor.cylinder( pos1, pos2, id_block )
             local __x = __x0 + (radius * math.cos(theta_rad))
             local __z = __z0 + (radius * math.sin(theta_rad))
             local __y = __y0 + height * sign
-            
+            local id_block = use[math.random(1, #use)]
             if not is_solid_at(__x, __y, __z) or is_replaceable_at(__x, __y, __z) then
                 block.set(__x, __y, __z, id_block)
             end
@@ -229,34 +241,26 @@ function editor.cylinder( pos1, pos2, id_block )
     end
 end
 
-function editor.replace( pos1, pos2 )
+function editor.replace( pos1, pos2, use, replace)
     local __x0, __y0, __z0 = pos1[1], pos1[2], pos1[3]
     local __x1, __y1, __z1 = pos2[1], pos2[2], pos2[3]
     
-    -- мне надо заменить этот блок на этот
-    local id_need_block = block.get(__x0, __y0 + 2, __z0)
-    local id_replace_block = block.get(__x0, __y0 + 1, __z0)
-
-    for i = 0, 3, 1 do block.set(__x0, __y0 + i, __z0, 0) end 
-    block.set(__x1, __y1, __z1, 0)
-    
     __x0, __y0, __z0, __x1, __y1, __z1 = __get_selection_bounds__(pos1, pos2)
 
-    if id_need_block and id_replace_block ~= 0 then
-        repeat
-            for dy = __y0, __y1 do
-                for dx = __x0, __x1 do
-                    for dz = __z0, __z1 do
-                        if block.get(dx, dy, dz) == id_replace_block then
-                            block.set(
-                                dx, dy, dz,
-                                id_need_block
-                            )
-                        end
+    if #use and #replace ~= 0 then
+        for dy = __y0, __y1 do
+            for dx = __x0, __x1 do
+                for dz = __z0, __z1 do
+                    local indx_block = tblu.find(replace, block.get(dx, dy, dz))
+                    if indx_block ~= nil then
+                        block.set(
+                            dx, dy, dz,
+                            use[indx_block]
+                        )
                     end
                 end
             end
-        until id_need_block ~= 0 or id_replace_block ~= 0
+        end
 
         for j = 0, 3, 1 do block.set(__x0, __y0 + j, __z0, 0) end
         
@@ -264,26 +268,6 @@ function editor.replace( pos1, pos2 )
     
 end
 
--- function editor.randbox( pos1, pos2, id_block )
---     local __x0, __y0, __z0, __x1, __y1, __z1 = __get_selection_bounds__(pos1, pos2)
-
---     for i = 1, 255, 1 do
---         local id_block_up = block.get(pos1[1], pos1[2] + i, pos1[3])
---         if id_block_up ~= 0 then id_block[i] = id_block_up
---         elseif #id_block == 0 and id_block_up == 0 then for j = 1, 21, 1 do if_block[j] = math.random(1, 21) end break end
---     end
-
-
---     for dz = __z0, __z1 do
---         for dy = __y0, __y1 do
---             for dx = __x0, __x1 do
---                 block.set(
---                     dx, dy, dz,
---                     id_block[math.random(1, #id_block)]
---                 )
---             end
---         end
---     end
--- end
+return editor
 
 

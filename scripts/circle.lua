@@ -17,7 +17,7 @@ function on_placed(x, y, z)
         editor.circle(
             start_pos,
             {x, y, z},
-            get_block(x, y - 1, z)
+            {get_block(x, y - 1, z)}
         )
 
         click, start_pos = 0, {0, 0, 0}

@@ -1,4 +1,5 @@
-local edt = require("quickedit:editor")
+local editor = require("quickedit:editor")
+local container = require 'quickedit:container'
 
 local click_fill = 0
 local start_pos = {0, 0, 0}
@@ -14,8 +15,8 @@ function on_placed(x, y, z)
         start_pos = {x, y, z}
     else
         click_fill = 0
-        editor.fill(start_pos, {x, y, z}, get_block(x,y-1,z)) 
-        start_pos = {0, 0, 0}   
+        editor.fill(start_pos, {x, y, z}, container:get_bag()) 
+        start_pos = {0, 0, 0}
     end
 end
 

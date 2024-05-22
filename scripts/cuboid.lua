@@ -16,7 +16,7 @@ function on_placed(x, y, z)
         editor.cuboid(
             start_pos_create,  
             {x, y, z},
-            get_block(x, y-1, z)
+            {get_block(x, y-1, z)}
         )
         click_create_cuboid = 0
         start_pos_create = {0, 0, 0}
