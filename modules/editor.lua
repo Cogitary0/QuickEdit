@@ -230,8 +230,39 @@ function editor.cylinder( pos1, pos2, id_block )
     end
 end
 
-function editor.test(  )
-    -- body
+function editor.replace( pos1, pos2 )
+    local __x0, __y0, __z0 = pos1[1], pos1[2], pos1[3]
+    local __x1, __y1, __z1 = pos2[1], pos2[2], pos2[3]
+    
+    -- мне надо заменить этот блок на этот
+    local id_need_block = block.get(__x0, __y0 + 2, __z0)
+    local id_replace_block = block.get(__x0, __y0 + 1, __z0)
+
+    for i = 0, 3, 1 do block.set(__x0, __y0 + i, __z0, 0) end 
+    block.set(__x1, __y1, __z1, 0)
+    
+    __x0, __y0, __z0, __x1, __y1, __z1 = __get_selection_bounds__(pos1, pos2)
+
+    if id_need_block and id_replace_block ~= 0 then
+        repeat
+            for dy = __y0, __y1 do
+                for dx = __x0, __x1 do
+                    for dz = __z0, __z1 do
+                        if block.get(dx, dy, dz) == id_replace_block then
+                            block.set(
+                                dx, dy, dz,
+                                id_need_block
+                            )
+                        end
+                    end
+                end
+            end
+        until id_need_block ~= 0 or id_replace_block ~= 0
+
+        for j = 0, 3, 1 do block.set(__x0, __y0 + j, __z0, 0) end
+        
+    end
+    
 end
 
 -- function editor.randbox( pos1, pos2, id_block )
