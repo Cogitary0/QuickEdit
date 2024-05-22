@@ -3,7 +3,6 @@ local edt = require("quickedit:editor")
 local put_block_line = 0
 local start_pos = {0, 0, 0}
 
-
 function on_broken(x,y,z)
     put_block_line = 0
     start_pos = {0, 0, 0}
