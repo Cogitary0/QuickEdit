@@ -1,0 +1,25 @@
+{
+  "blocks": [
+    "delete",
+    "fill",
+    "cuboid",
+    "replacement",
+    "sphere",
+    "linespace",
+    "circle",
+    "gyro",
+    "cylinder",
+    "randbox"
+  ],
+  "items": [
+    "delete.item",
+    "circle.item",
+    "fill.item",
+    "gyro.item",
+    "linespace.item",
+    "sphere.item",
+    "cylinder.item",
+    "cuboid.item",
+    "replacement.item"
+  ]
+}
