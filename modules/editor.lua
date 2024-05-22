@@ -1,6 +1,5 @@
-local vec3 = require("res:vector3")
-
-editor = { 
+-- local vec3 = require("res:vector3")
+local editor = { 
     HALF_PI = 1.5707963267948966192, -- Pi / 2
     TWO_PI = 6.2831853071795864769, -- 2 * Pi
     EXP = 2.71828182845904523536028747135, -- euler num
@@ -9,7 +8,7 @@ editor = {
     DEGREE = 0.0174532925199
 }
 
-
+-- utils func
 local __minmax__ = function(pos1, pos2)
     local minX, maxX = math.min(pos1[1],pos2[1]),math.max(pos1[1],pos2[1])
     local minY, maxY = math.min(pos1[2],pos2[2]),math.max(pos1[2],pos2[2])
@@ -22,7 +21,6 @@ local __distance__ = function(pos1, pos2)
     local __x1, __y1, __z1 = pos2[1], pos2[2], pos2[3]
     return ( (__x1 - __x0)^2 + (__y1 - __y0)^2 + (__z1 - __z0)^2 )^0.5
 end
-
 
 local __get_selection_bounds__ = function(start_pos, end_pos)
     local __x0, __y0, __z0 = start_pos[1], start_pos[2], start_pos[3]
@@ -42,6 +40,7 @@ local __round__ = function(value)
     return value >= 0 and math.floor( value + 0.5 ) or math.ceil( value - 0.5 )
 end
 
+-- main func
 function editor.delete( pos1, pos2 )
     local minX, maxX, minY, maxY, minZ, maxZ = __minmax__(pos1,pos2)
     for dy = minY, maxY, 1 do
