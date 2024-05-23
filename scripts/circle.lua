@@ -1,5 +1,5 @@
---dofile("res/content/voxelhelp/vox_math.lua")
-local edt = require("quickedit:editor")
+local editor = require("quickedit:editor")
+local container = require 'quickedit:container'
 local click, start_pos = 0, {0, 0, 0}
 
 function on_broken(x,y,z)
@@ -17,7 +17,7 @@ function on_placed(x, y, z)
         editor.circle(
             start_pos,
             {x, y, z},
-            {get_block(x, y - 1, z)}
+            container:get_bag()
         )
 
         click, start_pos = 0, {0, 0, 0}

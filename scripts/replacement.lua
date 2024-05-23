@@ -7,7 +7,7 @@ function on_broken(x,y,z)
 end
 
 function on_placed(x, y, z)
-    if click_replace == 0 then click_replace, stark_pos = 1, {x, y, z} 
+    if click_replace == 0 then click_replace, stark_pos = 1, {x, y, z}
     else 
         local bag = container:get_bag()
         local use = {}
