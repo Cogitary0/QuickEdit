@@ -1,4 +1,5 @@
-local edt = require("quickedit:editor")
+local editor = require("quickedit:editor")
+local container = require 'quickedit:container'
 local clck = 0
 local start_pos = {0, 0, 0}
 
@@ -16,7 +17,7 @@ function on_placed(x, y, z)
 		editor.sphere(
 			start_pos, 
 			{x, y, z}, 
-			{get_block(x,  y - 1, z)}
+			container:get_bag()
 		)
 	
 		clck, start_pos = 0, {0, 0, 0}
