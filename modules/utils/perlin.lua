@@ -133,11 +133,12 @@ local function print_noise(noise)
     end
 end
 
-local function build(noise, x1, y, z1, id, conf)
+local function build(noise, x1, y, z1, use, conf)
     for z = 1, #noise do
         for x = 1, #noise do
             if noise[z][x] ~= 0 then
-                block.set(x + x1, y + math.ceil(noise[z][x]*conf), z + z1, id)
+                local id_block = use[math.random(1, #use)]
+                block.set(x + x1, y + math.ceil(noise[z][x]*conf), z + z1, id_block)
             end
         end
     end
