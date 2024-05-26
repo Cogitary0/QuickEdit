@@ -72,11 +72,7 @@ local function perlin_to_matrix(perlin, sizeX, sizeY)
     for y = 0, sizeY, 1 do
         local collumn = {}
         for x = 0, sizeX, 1 do
-            if (perlin2d(x/30, y/30)) > 0 then
-                table.insert(collumn, 1)
-            else
-                table.insert(collumn, 0)
-            end
+            table.insert(collumn, perlin2d(x/30, y/30))
         end
         table.insert(matrix, collumn)
     end
@@ -110,6 +106,23 @@ local function is_clear(noise)
     return true
 end
 
+local function perlin_floor(perlin, sizeX, sizeY)
+    local perlin2d = perlin.perlin2d
+    local matrix = {}
+    for y = 0, sizeY, 1 do
+        local collumn = {}
+        for x = 0, sizeX, 1 do
+            if (perlin2d(x/30, y/30)) > 0 then
+                table.insert(collumn, 1)
+            else
+                table.insert(collumn, 0)
+            end
+        end
+        table.insert(matrix, collumn)
+    end
+    return matrix
+end
+
 local function print_noise(noise)
     for y = 1, #noise do
         local collumn = ''
@@ -120,11 +133,12 @@ local function print_noise(noise)
     end
 end
 
-local function build(noise, x1, y, z1, id)
+local function build(noise, x1, y, z1, use, conf)
     for z = 1, #noise do
         for x = 1, #noise do
-            if noise[z][x] == 1 then
-                block.set(x + x1, y, z + z1, id)
+            if noise[z][x] ~= 0 then
+                local id_block = use[math.random(1, #use)]
+                block.set(x + x1, y + math.ceil(noise[z][x]*conf), z + z1, id_block)
             end
         end
     end
@@ -136,5 +150,6 @@ module.perlin2matrix = perlin_to_matrix
 module.print = print_noise
 module.build = build
 module.is_clear = is_clear
+module.perlin2matrix_floor = perlin_floor
 
 return module
