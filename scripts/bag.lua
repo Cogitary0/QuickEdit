@@ -1,4 +1,4 @@
-local container = require 'quickedit:container'
+local container = require('quickedit:utils/container')
 local bag_inventory = {}
 
 function on_use_on_block(x, y, z, playerid)
