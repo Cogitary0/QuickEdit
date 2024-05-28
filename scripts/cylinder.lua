@@ -1,12 +1,14 @@
-local editor = require("quickedit:editor")
-local container = require 'quickedit:container'
-local clck, start_pos = 0, {0, 0, 0}
+local editor = require("quickedit:editor_session")
+local container = require('quickedit:utils/container')
 
-function on_broken(x, y, z)
-    clck, start_pos = 0, {0,0,0}
+local clck, start_pos = 0, { }
+
+function on_broken(x, y, z, playerid)
+    clck, start_pos = 0, { }
 end
 
-function on_placed(x, y, z)
+function on_placed(x, y, z, playerid)
+
 	if clck == 0 then 
 		clck, start_pos = 1,{x, y, z}
 	else
@@ -15,7 +17,8 @@ function on_placed(x, y, z)
 			{x, y, z},
 			container:get_bag()
 		)
-		clck, start_pos = 0, {0, 0, 0}
+		clck, start_pos = 0, { }
 	end
+
 end
 

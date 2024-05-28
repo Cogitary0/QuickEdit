@@ -1,13 +1,19 @@
-local editor = require("quickedit:editor")
-local container = require 'quickedit:container'
-local click_replace, start_pos = 0, {0, 0, 0}
+local editor = require("quickedit:editor_session")
+local container = require('quickedit:utils/container')
+
+local click_replace, start_pos = 0, { }
 
 function on_broken(x,y,z)
-    click_replace, stark_pos = 0, {0, 0, 0}
+
+    click_replace, stark_pos = 0, { }
+
 end
 
 function on_placed(x, y, z)
-    if click_replace == 0 then click_replace, stark_pos = 1, {x, y, z}
+
+    if click_replace == 0 then 
+        click_replace, stark_pos = 1, {x, y, z} 
+
     else 
         local bag = container:get_bag()
         local use = {}
@@ -21,9 +27,10 @@ function on_placed(x, y, z)
             use,
             replace
         )
-        stark_pos = {0, 0, 0}
+        stark_pos = { }
         click_replace = 0
     end
+
 end
 
 

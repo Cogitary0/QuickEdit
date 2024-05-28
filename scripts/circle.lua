@@ -1,9 +1,9 @@
-local editor = require("quickedit:editor")
-local container = require 'quickedit:container'
-local click, start_pos = 0, {0, 0, 0}
+local editor = require("quickedit:editor_session")
+local container = require('quickedit:utils/container')
+local click, start_pos = 0, { }
 
 function on_broken(x,y,z)
-    click, start_pos = 0, {0, 0, 0}
+    click, start_pos = 0, { }
 end
 
 
@@ -20,6 +20,6 @@ function on_placed(x, y, z)
             container:get_bag()
         )
 
-        click, start_pos = 0, {0, 0, 0}
+        click, start_pos = 0, { }
     end
 end
