@@ -111,36 +111,36 @@ function mainBuild.circle( pos1, pos2, use )
         for phi = 0, deltaPhi, precision do
             local id_block = use[math.random(1, #use)]
             local phiRad = phi * mainBuild.RADIAN
-            local xx = x0 + radius * math.cos(phiRad)
-            local zz = z0 + radius * math.sin(phiRad)
+            local __x = x0 + radius * math.cos(phiRad)
+            local __z = z0 + radius * math.sin(phiRad)
             block.set(
-                xx, y0, zz,
+                __x, y0, __z,
                 id_block,
-                get_block_states(xx, y0, zz))
+                get_block_states(__x, y0, __z))
         end
 
     elseif math.abs(z1 - z0) > 3 then
         for phi = 0, deltaPhi, precision do
             local id_block = use[math.random(1, #use)]
             local phiRad = phi * mainBuild.RADIAN
-            local xx = x0 + radius * math.cos(phiRad)
-            local yy = y0 + radius * math.sin(phiRad)
+            local __x = x0 + radius * math.cos(phiRad)
+            local __y = y0 + radius * math.sin(phiRad)
             block.set(
-                xx, yy, z0,
+                __x, __y, z0,
                 id_block,
-                get_block_states(xx, yy, z0))
+                get_block_states(__x, __y, z0))
         end
 
     elseif math.abs(x1 - x0) > 3 then
         for phi = 0, deltaPhi, precision do
             local id_block = use[math.random(1, #use)]
             local phiRad = phi * mainBuild.RADIAN
-            local yy = y0 + radius * math.cos(phiRad)
-            local zz = z0 + radius * math.sin(phiRad)
+            local __y = y0 + radius * math.cos(phiRad)
+            local __z = z0 + radius * math.sin(phiRad)
             block.set(
-                x0, yy, zz,
+                x0, __y, __z,
                 id_block,
-                get_block_states(x0, yy, zz))
+                get_block_states(x0, __y, __z))
         end
     end
 
