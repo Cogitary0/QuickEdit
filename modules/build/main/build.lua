@@ -100,54 +100,55 @@ end
 
 
 function mainBuild.circle( pos1, pos2, use )
-    
+
     local radius = funcUtils.__distance__(pos1, pos2)
-    local __x, __y, __z = unpack(pos1)
+    local x0, y0, z0 = unpack(pos1)
     local x1, y1, z1 = unpack(pos2)
     local precision = 0.1
     local deltaPhi = 360 - precision
 
-    if math.abs(y1 - __y) < 3 then
+    if math.abs(y1 - y0) < 3 then
         for phi = 0, deltaPhi, precision do
             local id_block = use[math.random(1, #use)]
             local phiRad = phi * mainBuild.RADIAN
-            local xx = __x + radius * math.cos(phiRad)
-            local zz = __z + radius * math.sin(phiRad)
+            local xx = x0 + radius * math.cos(phiRad)
+            local zz = z0 + radius * math.sin(phiRad)
             block.set(
-                xx, __y, zz, 
-                id_block, 
-                get_block_states(xx, __y, zz))           
+                xx, y0, zz,
+                id_block,
+                get_block_states(xx, y0, zz))
         end
 
-    elseif math.abs(z1 - __z) > 3 then
+    elseif math.abs(z1 - z0) > 3 then
         for phi = 0, deltaPhi, precision do
             local id_block = use[math.random(1, #use)]
             local phiRad = phi * mainBuild.RADIAN
-            local xx = __x + radius * math.cos(phiRad)
-            local yy = __y + radius * math.sin(phiRad)
+            local xx = x0 + radius * math.cos(phiRad)
+            local yy = y0 + radius * math.sin(phiRad)
             block.set(
-                xx, yy, __z, 
-                id_block, 
-                get_block_states(xx, yy, __z))           
+                xx, yy, z0,
+                id_block,
+                get_block_states(xx, yy, z0))
         end
 
-    elseif math.abs(x1 - __x) > 3 then 
+    elseif math.abs(x1 - x0) > 3 then
         for phi = 0, deltaPhi, precision do
             local id_block = use[math.random(1, #use)]
             local phiRad = phi * mainBuild.RADIAN
-            local yy = __y + radius * math.cos(phiRad)
-            local zz = __z + radius * math.sin(phiRad)
+            local yy = y0 + radius * math.cos(phiRad)
+            local zz = z0 + radius * math.sin(phiRad)
             block.set(
-                __x, yy, zz, 
-                id_block, 
-                get_block_states(__x, yy, zz))           
+                x0, yy, zz,
+                id_block,
+                get_block_states(x0, yy, zz))
         end
     end
 
     block.set(x1, y1, z1, 0, 0)
-    block.set(__x, __y, __z, 0)
+    block.set(x0, y0, z0, 0)
 
 end
+
 
 
 function mainBuild.serp(pos1, pos2, use)
