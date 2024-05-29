@@ -1,5 +1,5 @@
 --temporary solution
-local mainBuild = require("quickedit:build/main/build")
+local mainBuild = require("quickedit:build/main/mainBuild")
 
 local editorSession = {}
 
