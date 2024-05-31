@@ -1,11 +1,11 @@
 --temporary solution
-local mainBuild = require("quickedit:build/main/mainBuild")
+local mainBuild = require("quickedit:build/mainBuild")
 
 local editorSession = {}
 
 function editorSession.delete(pos1, pos2) mainBuild.delete(pos1, pos2) end
 
-function editorSession.fill(pos1, pos2, use) mainBuild.fill(pos1, pos2, use, true) end
+function editorSession.fill(pos1, pos2, use) mainBuild.cuboid(pos1, pos2, use, true) end
 
 function editorSession.linespace(pos1, pos2, use) mainBuild.linespace(pos1, pos2, use) end
 

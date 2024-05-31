@@ -1,24 +1,19 @@
 local tblu = require('quickedit:utils/table_utils')
 local funcUtils = require('quickedit:utils/func_utils')
+local const = require('quickedit:constants')
 
-local mainBuild = {
-    EXP = 2.71828182845904523536028747135, -- euler num
-    PI = 3.14159265358979323846264338328, -- const pi
-    HALF_PI = 1.5707963267948966192, -- Pi / 2
-    TWO_PI = 6.2831853071795864769, -- 2 * Pi
-    RADIAN = 57.29577951308232087679815481410514633799,
-    DEGREE = 0.01745329251994329576923690768488613444,
-}
+local mainBuild = {}
 
 
 -- main func
 function mainBuild.delete(pos1, pos2)
+    local ID_NULL_BLOCK = block.index("quickedit:null")
     local minX, maxX, minY, maxY, minZ, maxZ = funcUtils.__minmax__(pos1, pos2)
     for dy = minY, maxY, 1 do
         for dz = minZ, maxZ, 1 do
             for dx = minX, maxX, 1 do
-                if is_solid_at(dx, dy, dz) or block.get(dx, dy, dz) ~= 0 then
-                    block.set(dx,dy,dz,nil,nil)
+                if is_solid_at(dx, dy, dz) or block.get(dx, dy, dz) ~= ID_NULL_BLOCK then
+                    block.set(dx,dy,dz, ID_NULL_BLOCK)
                 end
             end
         end
@@ -26,9 +21,9 @@ function mainBuild.delete(pos1, pos2)
 end
 
 
-function mainBuild.fill(pos1, pos2, use, filled)
-    mainBuild.cuboid(pos1, pos2, use, filled)
-end
+-- function mainBuild.fill(pos1, pos2, use, filled)
+--     mainBuild.cuboid(pos1, pos2, use, filled)
+-- end
 
 
 function mainBuild.linespace(pos1, pos2, use)
@@ -59,7 +54,6 @@ function mainBuild.linespace(pos1, pos2, use)
         end
 
     end
-
 
     block.set(x0, y0, z0, 0)
     block.set(x1, y1, z1, 0)
@@ -124,7 +118,7 @@ function mainBuild.circle(pos1, pos2, use)
     if math.abs(y1 - y0) < 3 then
         for phi = 0, deltaPhi, precision do
             local id_block = use[math.random(1, #use)]
-            local phiRad = phi * mainBuild.RADIAN
+            local phiRad = phi * const.RADIAN
             local __x = x0 + radius * math.cos(phiRad)
             local __z = z0 + radius * math.sin(phiRad)
             block.set(
@@ -137,7 +131,7 @@ function mainBuild.circle(pos1, pos2, use)
     elseif math.abs(z1 - z0) > 3 then
         for phi = 0, deltaPhi, precision do
             local id_block = use[math.random(1, #use)]
-            local phiRad = phi * mainBuild.RADIAN
+            local phiRad = phi * const.RADIAN
             local __x = x0 + radius * math.cos(phiRad)
             local __y = y0 + radius * math.sin(phiRad)
             block.set(
@@ -150,7 +144,7 @@ function mainBuild.circle(pos1, pos2, use)
     elseif math.abs(x1 - x0) > 3 then
         for phi = 0, deltaPhi, precision do
             local id_block = use[math.random(1, #use)]
-            local phiRad = phi * mainBuild.RADIAN
+            local phiRad = phi * const.RADIAN
             local __y = y0 + radius * math.cos(phiRad)
             local __z = z0 + radius * math.sin(phiRad)
             block.set(
@@ -165,7 +159,6 @@ function mainBuild.circle(pos1, pos2, use)
     block.set(x0, y0, z0, 0)
 
 end
-
 
 
 function mainBuild.serp(pos1, pos2, use)
@@ -369,6 +362,8 @@ function mainBuild.replace(pos1, pos2, use, replace)
     end
 
 end
+
+
 
 
 return mainBuild
