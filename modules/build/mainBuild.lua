@@ -4,26 +4,20 @@ local const = require('quickedit:constants')
 
 local mainBuild = {}
 
-
 -- main func
 function mainBuild.delete(pos1, pos2)
-    local ID_NULL_BLOCK = block.index("quickedit:null")
+    -- local ID_NULL_BLOCK = block.index("quickedit:null")
     local minX, maxX, minY, maxY, minZ, maxZ = funcUtils.__minmax__(pos1, pos2)
     for dy = minY, maxY, 1 do
         for dz = minZ, maxZ, 1 do
             for dx = minX, maxX, 1 do
                 if is_solid_at(dx, dy, dz) or block.get(dx, dy, dz) ~= ID_NULL_BLOCK then
-                    block.set(dx,dy,dz, ID_NULL_BLOCK)
+                    block.set(dx,dy,dz, 0)
                 end
             end
         end
     end
 end
-
-
--- function mainBuild.fill(pos1, pos2, use, filled)
---     mainBuild.cuboid(pos1, pos2, use, filled)
--- end
 
 
 function mainBuild.linespace(pos1, pos2, use)
