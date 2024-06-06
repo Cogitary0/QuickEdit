@@ -26,7 +26,29 @@ function mainBuild.delete(contBlocks)
 end
 
 
+local function get_lowest_block(x, y, z)
+    local bl = block.get(x, y, z)
+    local layer = 1
+    while bl == block.index('core:air') do
+        bl = block.get(x, y-layer, z)
+        layer = layer + 1
+    end
+    return {bl, y-layer+1}
+end
 
+function mainBuild.layering(x, y, z)
+    local x1, x2 = x - 3, x + 3
+    local z1, z2 = z - 3, z + 3
+
+    for x = math.min(x1, x2), math.max(x1, x2) do
+        for z = math.min(z1, z2), math.max(z1, z2) do
+            local temp = get_lowest_block(x, y+1, z)
+            local bl = temp[1]
+            local y = temp[2]
+            block.set(x, y+1, z, bl)
+        end
+    end
+end
 
 -- past func
 function mainBuild.linespace(pos1, pos2, use)
