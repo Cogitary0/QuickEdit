@@ -71,7 +71,7 @@ console.add_command(
 )
 
 console.add_command(
-    "q.terraformer.mode mode:int",
+    "q.wand.mode mode:int",
     "change terraformer mode",
     function(mode)
         container:send_mode(mode[1])
