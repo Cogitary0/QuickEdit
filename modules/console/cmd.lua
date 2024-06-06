@@ -2,8 +2,6 @@ local editorSession = require("quickedit:editor_session")
 local preBuild = require("quickedit:build/preBuild")
 local container = require("quickedit:utils/container")
 local containerBlocks = require("quickedit:container/blocks")
-local pos1 = {}
-local pos2 = {}
 local trash = {}
 
 
@@ -14,7 +12,7 @@ console.add_command(
     function (args, kwargs)
         local x, y, z = player.get_pos()
         print(x, y, z)
-        pos1 = {x,y,z}
+        container:get().pos1 = {x,y,z}
     end
 )
 
@@ -24,7 +22,7 @@ console.add_command(
     function (args, kwargs)
         local x, y, z = player.get_pos()
         print(x, y, z)
-        pos2 = {x, y, z}
+        container:get().pos2 = {x, y, z}
     end
 )
 
@@ -48,17 +46,22 @@ console.add_command(
         filled = filled == "true"
 
 
-        if #pos1 ~= 0 and #pos2 ~= 0 then
-            
+        if #container:get().pos1 ~= 0 and #container:get().pos2 ~= 0 then
+
             if command == "del" then
-            
-                preBuild.preDelete(pos1, pos2)
+
+                preBuild.preDelete(container:get().pos1, container:get().pos2)
                 trash = {"del"}
-    
+
+            else
+                for key, func in pairs(preBuild) do
+                    if key == command then
+                        func(container:get().pos1, container:get().pos2, filled)
+                        break
+                    end
+                end
             end
-
         end
-
     end
 )
 
@@ -74,7 +77,7 @@ console.add_command(
     "q.terraformer.mode mode:int",
     "change terraformer mode",
     function(mode)
-        container:send_mode(mode[1])
+        container:get().ter_mode = mode[1]
         return 'mode: ' .. mode[1]
     end
 )

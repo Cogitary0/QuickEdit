@@ -49,7 +49,7 @@ end
 
 
 function preBuild.cuboid(pos1, pos2, use, filled)
---
+    print('TEST')
 end
 
 
