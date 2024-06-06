@@ -1,51 +1,74 @@
+local editorSession = require("quickedit:editor_session")
+local preBuild = require("quickedit:build/preBuild")
+local container = require("quickedit:utils/container")
+local containerBlocks = require("quickedit:container/blocks")
 local pos1 = {}
 local pos2 = {}
-local editorSession = require("quickedit:editor_session")
+local trash = {}
 
--- устанавливаем pos1 && pos2
+
+
 console.add_command(
+    "q.pos1",
+    "set <pos1>",
+    function (args, kwargs)
+        local x, y, z = player.get_pos()
+        print(x, y, z)
+        pos1 = {x,y,z}
+    end
+)
 
-    "q command:str", -- cmd
-    
-    "set <pos1> && <pos2>", -- descriptions cmd
+console.add_command(
+    "q.pos2",
+    "set <pos2>",
+    function (args, kwargs)
+        local x, y, z = player.get_pos()
+        print(x, y, z)
+        pos2 = {x, y, z}
+    end
+)
+
+console.add_command(
+    "q.undo",
+    "reset preBuild",
+    function()
+        preBuild.undo(containerBlocks.get())
+        trash = {}
+    end
+)
+
+
+console.add_command(
+    "q.set command:str filled:str=true",
+    "set <pos1> && <pos2>",
 
     function (args, kwargs)
-        local command = unpack(args)
-        local xp, yp, zp = player.get_pos()
 
-        if command == "pos1" then
-            print(1)
+        local command, filled = unpack(args)
+        filled = filled == "true"
+
+
+        if #pos1 ~= 0 and #pos2 ~= 0 then
             
-            if #pos1 == 0 then
-                
-                pos1 = {x = xp, y = yp, z = zp}
-
-            end
-
+            if command == "del" then
             
-
-        elseif command == "pos2" then
-            print(2)
-
-            if #pos2 == 0 then
-                
-                pos2 = {x = xp, y = yp, z = zp}
-
-            end
-
-        elseif command == "fill" then
-            print(3)
-            print(#pos1, #pos2)
-            if #pos1 ~= 0 and #pos2 ~= 0 then
-                
-                editorSession.fill(pos1, pos2, 11, true)
-
+                preBuild.preDelete(pos1, pos2)
+                trash = {"del"}
+    
             end
 
         end
 
-
-
     end
 )
+
+-- console.add_command(
+--     "q.build",
+--     "confirm build",
+--     function()
+--         if trash == "del" then
+--             editorSession.delete(containerBlocks)
+--         end
+--     end
+-- )
 

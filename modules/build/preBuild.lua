@@ -1,133 +1,84 @@
-local pre_build = {}
+local mainBuild = require("quickedit:build/mainBuild")
+local funcUtils = require("quickedit:utils/func_utils")
+local containerBlocks = require("quickedit:container/blocks")
+local preBuild = {}
 
--- пока заготовка на будущее
 
--- build -> fill, cube, cuboid, ...
-function pre_build.__cuboid__(pos1, pos2, distance)
+-- main func
+function preBuild.preDelete(pos1, pos2) 
+
+    local ID_PRE_BUILD_BLOCK = block.index("quickedit:prebuildblock")
+    local minX, maxX, minY, maxY, minZ, maxZ = funcUtils.__minmax__(pos1, pos2)
+    for dy = minY, maxY, 1 do
+        for dz = minZ, maxZ, 1 do
+            for dx = minX, maxX, 1 do
+                if is_solid_at(dx, dy, dz) then
+                    containerBlocks.send({dx, dy, dz}, id_block, "pre")
+                    block.set(dx, dy, dz, ID_PRE_BUILD_BLOCK)
+                end
+            end
+        end
+    end
+    print(unpack(containerBlocks.get()))
+end
+
+
+function mainBuild.undo(contBlocks)
     
-    local x0, y0, z0 = math.min(pos1[1], pos2[1]), math.min(pos1[2], pos2[2]), math.min(pos1[3], pos2[3])
-    local x1, y1, z1 = math.max(pos1[1], pos2[1]), math.max(pos1[2], pos2[2]), math.max(pos1[3], pos2[3])
-    local ID_BLOCK_PRE_BUILD = 0 -- no block (temporary solution)
-
-    -- create edges along the {y} axis
-    for dx = x0, x1 do
-        if block.is_replaceable_at(dx, y0, z0) then block.set(dx, y0, z0, ID_BLOCK_PRE_BUILD) end
-        if block.is_replaceable_at(dx, y0, z1) then block.set(dx, y0, z1, ID_BLOCK_PRE_BUILD) end
-        if block.is_replaceable_at(dx, y1, z0) then block.set(dx, y1, z0, ID_BLOCK_PRE_BUILD) end
-        if block.is_replaceable_at(dx, y1, z1) then block.set(dx, y1, z1, ID_BLOCK_PRE_BUILD) end
-    end
-
-    -- create edges along the {z} axis
-    for dy = y0, y1 do
-        if block.is_replaceable_at(x0, dy, z0) then block.set(x0, dy, z0, ID_BLOCK_PRE_BUILD) end
-        if block.is_replaceable_at(x1, dy, z0) then block.set(x1, dy, z0, ID_BLOCK_PRE_BUILD) end
-        if block.is_replaceable_at(x0, dy, z1) then block.set(x0, dy, z1, ID_BLOCK_PRE_BUILD) end
-        if block.is_replaceable_at(x1, dy, z1) then block.set(x1, dy, z1, ID_BLOCK_PRE_BUILD) end
-    end
-
-    -- create edges along the {x} axis
-    for dz = z0, z1 do
-        if block.is_replaceable_at(x0, y0, dz) then block.set(x0, y0, dz, ID_BLOCK_PRE_BUILD) end
-        if block.is_replaceable_at(x1, y0, dz) then block.set(x1, y0, dz, ID_BLOCK_PRE_BUILD) end
-        if block.is_replaceable_at(x0, y1, dz) then block.set(x0, y1, dz, ID_BLOCK_PRE_BUILD) end
-        if block.is_replaceable_at(x1, y1, dz) then block.set(x1, y1, dz, ID_BLOCK_PRE_BUILD) end
+    local lenCB = #contBlocks
+    local id_block = contBlocks.id
+    local minX, maxX, minY, maxY, minZ, maxZ = funcUtils.__minmax__(
+        {contBlocks[1].x, contBlocks[1].y, contBlocks[1].z}, 
+        {contBlocks[lenCB].x, contBlocks[lenCB].y, contBlocks[lenCB].z}
+    )
+        
+    for dy = minY, maxY, 1 do
+        for dz = minZ, maxZ, 1 do
+            for dx = minX, maxX, 1 do
+                block.set(dx, dy, dz, id_block)
+            end
+        end
     end
 end
 
 
-function pre_build.__sphere__(pos1, pos2, distance)
-    local ID_BLOCK_PRE_BUILD = 0 -- no block (temporary solution)
-    
-    local function circle_gen(cx, cy, cz, radius, precision, id)
-        local deltaPhi = 360 - 0.1
-
-        for phi = 0, deltaPhi, 0.1 do
-            local phiRad = math.rad(phi)
-
-            local x = cx + radius * math.cos(phiRad)
-            local z = cz + radius * math.sin(phiRad)
-
-            if is_replaceable_at(x, cy, z) then block.set(x, cy, z, id, get_block_states(x, cy, z)) end
-        end
-    end
-
-    local function circle_gen_x(cx, cy, cz, radius, precision, id)
-        local deltaPhi = 360 - 0.1
-
-        for phi = 0, deltaPhi, 0.1 do
-            local phiRad = math.rad(phi)
-
-            local y = cy + radius * math.cos(phiRad)
-            local z = cz + radius * math.sin(phiRad)
-
-            if is_replaceable_at(cx, y, z) then block.set(cx, y, z, id, get_block_states(cx, y, z)) end
-        end
-    end
-
-    local function circle_gen_y(cx, cy, cz, radius, precision, id)
-        local deltaPhi = 360 - 0.1
-
-        for phi = 0, deltaPhi, 0.1 do
-            local phiRad = math.rad(phi)
-
-            local x = cx + radius * math.cos(phiRad)
-            local z = cz + radius * math.sin(phiRad)
-
-            if is_replaceable_at(x, cy, z) then block.set(x, cy, z, id, get_block_states(x, cy, z)) end
-        end
-    end
-
-    local function circle_gen_z(cx, cy, cz, radius, precision, id)
-        local deltaPhi = 360 - 0.1
-
-        for phi = 0, deltaPhi, 0.1 do
-            local phiRad = math.rad(phi)
-
-            local x = cx + radius * math.cos(phiRad)
-            local y = cy + radius * math.sin(phiRad)
-
-            if is_replaceable_at(x, y, cz) then block.set(x, y, cz, id, get_block_states(x, y, cz)) end
-        end
-    end
-
-    local x0, y0, z0 = unpack(pos1)
-    local x1, y1, z0 = unpack(pos2)
-
-    circle_gen(x0, y0, z0, distance, 0.1, ID_BLOCK_PRE_BUILD)
-    circle_gen_x(x0, y0, z0, distance, 0.1, ID_BLOCK_PRE_BUILD)
-    circle_gen_y(x0, y0, z0, distance, 0.1, ID_BLOCK_PRE_BUILD)
-    circle_gen_z(x0, y0, z0, distance, 0.1, ID_BLOCK_PRE_BUILD)
-
+-- @TODO
+function preBuild.preLinespace(pos1, pos2, use)
 
 end
 
 
--- function pre_build_cuboid(pos1, pos2)
--- 	local x0, y0, z0 = unpack(pos1)
--- 	local x1, y1, z1 = unpack(pos2)
--- 	local ID_BLOCK_PRE_BUILD = block.index('quickedit:alpha')
-	
--- 	-- movement along the horizont; {y},{z} = const
--- 	for dx = x0, x1 do
--- 		if block.is_replaceable_at(dx,y0,z0) then block.set(dx, y0, z0, ID_BLOCK_PRE_BUILD) end 
---         if block.is_replaceable_at(dx,y0,z1) then block.set(dx, y0, z1, ID_BLOCK_PRE_BUILD) end
---         if block.is_replaceable_at(dx,y1,z0) then block.set(dx, y1, z0, ID_BLOCK_PRE_BUILD) end
---         if block.is_replaceable_at(dx,y1,z1) then block.set(dx, y1, z1, ID_BLOCK_PRE_BUILD) end
---     end
-
-	
--- 	-- movement along the verticals; {x},{z} = const
--- 	for dy = y0, y1 do
---         if block.is_replaceable_at(x0,dy,z0) then block.set(x0, dy, z0, ID_BLOCK_PRE_BUILD) end 
---         if block.is_replaceable_at(x0,dy,z1) then block.set(x0, dy, z1, ID_BLOCK_PRE_BUILD) end
---         if block.is_replaceable_at(x1,dy,z0) then block.set(x1, dy, z0, ID_BLOCK_PRE_BUILD) end
---         if block.is_replaceable_at(x1,dy,z1) then block.set(x1, dy, z1, ID_BLOCK_PRE_BUILD) end
--- 	end
-	
--- 	x0, y0, z0 = nil, nil, nil
--- 	x1, y1, z1 = nil, nil, nil
-	
--- end
+function preBuild.cuboid(pos1, pos2, use, filled)
+--
+end
 
 
-return pre_build
+function preBuild.circle(pos1, pos2, use)
+--
+end
+
+
+function preBuild.serp(pos1, pos2, use)
+  --
+end
+
+
+function preBuild.sphere(pos1, pos2, use, filled)
+--
+end
+
+
+function preBuild.cylinder(pos1, pos2, use, filled)
+--
+end
+
+
+function preBuild.replace(pos1, pos2, use, replace)
+ --
+end
+
+
+    
+
+
+return preBuild

@@ -1,0 +1,10 @@
+{
+    "texture": "prebuildblock",
+    "draw-group": 3,
+    "light-passing": true,
+    "sky-light-passing": true,
+    "obstacle": false,
+    "selectable": true,
+    "picking-item": "quickedit:bag",
+    "hidden": true
+}
