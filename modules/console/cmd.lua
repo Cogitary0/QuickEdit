@@ -62,6 +62,23 @@ console.add_command(
     end
 )
 
+console.add_command(
+    "q.wand",
+    "give terraformer",
+    function()
+        inventory.add(0, item.index('quickedit:terraformer'), 1)
+    end
+)
+
+console.add_command(
+    "q.terraformer.mode mode:int",
+    "change terraformer mode",
+    function(mode)
+        container:send_mode(mode[1])
+        return 'mode: ' .. mode[1]
+    end
+)
+
 -- console.add_command(
 --     "q.build",
 --     "confirm build",
