@@ -1,57 +1,23 @@
-local containerBlocksReleaseBuild = {x = nil, y = nil, z = nil, id = nil}
-local containerBlocksPreBuild = {x = nil, y = nil, z = nil, id = nil}
-local __container__ = { }
+local Container = {}
+local containerBlocks = {}
 
-function __container__.send(pos1, id_block, form)
-
-    if form == "pre" then
-        
-        -- containerBlocksPreBuild = {
-        --     x = pos1[1], y = pos1[2], z = pos1[3], id = id_block
-        -- }
-
-        table.insert(
-            containerBlocksPreBuild, {
-                x = pos1[1], y = pos1[2], z = pos1[3], id = id_block
-            }
-        )
-
-    -- elseif form == "release" then
-
-    --     containerBlocksReleaseBuild = {
-    --         x = pos2[1], y = pos2[2], z = pos2[3], id = id_block
-    --     }
-
+function Container.send(pos, id, form)
+    if form == 'pre' then
+      table.insert(containerBlocks, {
+          x = pos[1],
+          y = pos[2],
+          z = pos[3],
+          id = id
+      })
     end
-
 end
 
-function __container__.get(form)
-
-    if form == "pre" then
-        
-        return containerBlocksPreBuild
-
-    elseif form == "release" then
-
-        return containerBlocksReleaseBuild
-
-    end
-    
+function Container.get()
+    return containerBlocks
 end
 
-function __container__.remove(form)
-
-    if form == "pre" then
-        
-        containerBlocksPreBuild = {x = nil, y = nil, z = nil, id = nil}
-
-    elseif form == "release" then
-
-        containerBlocksReleaseBuild = {x = nil, y = nil, z = nil, id = nil}
-
-    end
-    
+function Container.remove()
+    containerBlocks = {}
 end
 
-return __container__
+return Container

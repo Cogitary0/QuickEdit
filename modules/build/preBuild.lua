@@ -1,6 +1,7 @@
 local mainBuild = require("quickedit:build/mainBuild")
 local funcUtils = require("quickedit:utils/func_utils")
 local containerBlocks = require("quickedit:container/blocks")
+local container = require("quickedit:utils/container")
 local preBuild = {}
 
 
@@ -9,17 +10,23 @@ function preBuild.preDelete(pos1, pos2)
 
     local ID_PRE_BUILD_BLOCK = block.index("quickedit:prebuildblock")
     local minX, maxX, minY, maxY, minZ, maxZ = funcUtils.__minmax__(pos1, pos2)
+    local it = 0
+
     for dy = minY, maxY, 1 do
         for dz = minZ, maxZ, 1 do
             for dx = minX, maxX, 1 do
-                if is_solid_at(dx, dy, dz) then
-                    containerBlocks.send({dx, dy, dz}, id_block, "pre")
-                    block.set(dx, dy, dz, ID_PRE_BUILD_BLOCK)
-                end
+                
+                container:send_bag({
+                    dx,dy,dz, block.get(dx,dy,dz)
+                })
+
+                block.set(dx, dy, dz, ID_PRE_BUILD_BLOCK)
+
             end
         end
     end
-    print(unpack(containerBlocks.get()))
+    print(#container:get_bag())
+    print(unpack(container:get_bag()))
 end
 
 
