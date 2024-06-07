@@ -46,40 +46,42 @@ end
 
 
 function preBuild.preLinespace(pos1, pos2, use)
-
+    mainBuild.linespace(pos1, pos2, use)
 end
 
 
 function preBuild.cuboid(pos1, pos2, use, filled)
-    print('TEST')
+    mainBuild.cuboid(pos1, pos2, use, filled)
 end
 
 
 function preBuild.circle(pos1, pos2, use)
---
+    mainBuild.circle(pos1, pos2, use)
 end
 
 
 function preBuild.serp(pos1, pos2, use)
-  --
+    mainBuild.serp(pos1, pos2, use)
 end
 
 
 function preBuild.sphere(pos1, pos2, use, filled)
---
+    mainBuild.sphere(pos1, pos2, use, filled)
 end
 
 
 function preBuild.cylinder(pos1, pos2, use, filled)
---
+    mainBuild.cylinder(pos1, pos2, use, filled)
 end
 
 
 function preBuild.replace(pos1, pos2, use, replace)
- --
+    local use1 = {}
+    local replace = {}
+    for i = 1, #bag do
+        if i % 2 ~= 0 then table.insert(use1, bag[i]) else table.insert(replace, bag[i]) end
+    end
+    mainBuild.replace(pos1, pos2, use1, replace)
 end
 
-
 return preBuild
-
-
