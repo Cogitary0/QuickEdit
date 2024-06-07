@@ -1,55 +1,50 @@
 local mainBuild = require("quickedit:build/mainBuild")
 local funcUtils = require("quickedit:utils/func_utils")
-local containerBlocks = require("quickedit:container/blocks")
 local container = require("quickedit:utils/container")
+local containerBlocksClass = require("quickedit:container/blocks")
 local preBuild = {}
 
 
 -- main func
-function preBuild.preDelete(pos1, pos2) 
-
+function preBuild.preDelete(pos1, pos2, containerBlocks) 
     local ID_PRE_BUILD_BLOCK = block.index("quickedit:prebuildblock")
     local minX, maxX, minY, maxY, minZ, maxZ = funcUtils.__minmax__(pos1, pos2)
-    local it = 0
-
     for dy = minY, maxY, 1 do
         for dz = minZ, maxZ, 1 do
             for dx = minX, maxX, 1 do
-                
-                container:send_bag({
-                    dx,dy,dz, block.get(dx,dy,dz)
-                })
-
+                containerBlocks:add(dx,dy,dz,block.get(dx,dy,dz))
                 block.set(dx, dy, dz, ID_PRE_BUILD_BLOCK)
-
             end
         end
     end
-    print(#container:get_bag())
-    print(unpack(container:get_bag()))
 end
 
 
-function mainBuild.undo(contBlocks)
+function preBuild.undo(containerBlocks)
     
-    local lenCB = #contBlocks
-    local id_block = contBlocks.id
-    local minX, maxX, minY, maxY, minZ, maxZ = funcUtils.__minmax__(
-        {contBlocks[1].x, contBlocks[1].y, contBlocks[1].z}, 
-        {contBlocks[lenCB].x, contBlocks[lenCB].y, contBlocks[lenCB].z}
-    )
-        
-    for dy = minY, maxY, 1 do
-        for dz = minZ, maxZ, 1 do
-            for dx = minX, maxX, 1 do
-                block.set(dx, dy, dz, id_block)
-            end
-        end
-    end
+    -- получение коордов 
+    local x0, y0, z0 = containerBlocks:get(1).x, containerBlocks:get(1).y, containerBlocks:get(1).z
+
+    -- local xn, yn, zn = containerBlocks:get(#containerBlocks:size())
+    print(x0, y0, z0, containerBlocks:size())
 end
 
 
--- @TODO
+-- function preBuild.scaffold(pos1, pos2, containerBlocks)
+--     local ID_PRE_BUILD_BLOCK = block.index("quickedit:prebuildblock")
+--     local minX, maxX, minY, maxY, minZ, maxZ = funcUtils.__minmax__(pos1, pos2)
+--     for dy = minY, maxY, 1 do
+--         for dz = minZ, maxZ, 1 do
+--             for dx = minX, maxX, 1 do
+--                 containerBlocks:add(dx,dy,dz,block.get(dx,dy,dz))
+--                 block.set(dx, dy, dz, ID_PRE_BUILD_BLOCK)
+--             end
+--         end
+--     end
+--     containerBlocks:printAll()
+-- end
+
+
 function preBuild.preLinespace(pos1, pos2, use)
 
 end
@@ -85,7 +80,6 @@ function preBuild.replace(pos1, pos2, use, replace)
 end
 
 
-    
-
-
 return preBuild
+
+

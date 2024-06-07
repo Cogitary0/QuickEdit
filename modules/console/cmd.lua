@@ -1,8 +1,9 @@
 local editorSession = require("quickedit:editor_session")
 local preBuild = require("quickedit:build/preBuild")
 local container = require("quickedit:utils/container")
-local containerBlocks = require("quickedit:container/blocks")
+local __container__ = require("quickedit:container/blocks")
 local trash = {}
+local cont = __container__.new()
 
 
 
@@ -11,7 +12,7 @@ console.add_command(
     "set <pos1>",
     function (args, kwargs)
         local x, y, z = player.get_pos()
-        print(x, y, z)
+        print("pos1 set")
         container:get().pos1 = {x,y,z}
     end
 )
@@ -21,7 +22,7 @@ console.add_command(
     "set <pos2>",
     function (args, kwargs)
         local x, y, z = player.get_pos()
-        print(x, y, z)
+        print("pos2 set")
         container:get().pos2 = {x, y, z}
     end
 )
@@ -30,32 +31,32 @@ console.add_command(
     "q.undo",
     "reset preBuild",
     function()
-        preBuild.undo(containerBlocks.get())
+        preBuild.undo(cont)
         trash = {}
     end
 )
 
 
 console.add_command(
-    "q.set command:str filled:str=true",
+    "q.set mode:str filled:str=true",
     "set <pos1> && <pos2>",
 
     function (args, kwargs)
 
-        local command, filled = unpack(args)
+        local mode, filled = unpack(args)
         filled = filled == "true"
 
 
         if #container:get().pos1 ~= 0 and #container:get().pos2 ~= 0 then
 
-            if command == "del" then
+            if mode == "del" then
 
-                preBuild.preDelete(container:get().pos1, container:get().pos2)
+                preBuild.preDelete(container:get().pos1, container:get().pos2, cont)
                 trash = {"del"}
 
             else
                 for key, func in pairs(preBuild) do
-                    if key == command then
+                    if key == mode then
                         func(container:get().pos1, container:get().pos2, filled)
                         break
                     end
@@ -66,7 +67,7 @@ console.add_command(
 )
 
 console.add_command(
-    "q.wand",
+    "q.ter",
     "give terraformer",
     function()
         inventory.add(0, item.index('quickedit:terraformer'), 1)
@@ -74,7 +75,7 @@ console.add_command(
 )
 
 console.add_command(
-    "q.wand.mode mode:int",
+    "q.ter.mode mode:int",
     "change terraformer mode",
     function(mode)
         container:get().ter_mode = mode[1]
