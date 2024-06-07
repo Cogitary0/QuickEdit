@@ -1,24 +1,33 @@
-local bag_info = {}
 local container = {}
-local ter_mode = 1
+
+local new_container = {
+    pos1 = {},
+    pos2 = {},
+    bag = {},
+    ter_mode = 1
+}
 
 function container:send_bag(data)
-    bag_info = data
+    new_container.bag = data
 end
 
 function container:send_mode(data)
-    ter_mode = data
+    new_container.ter_mode = data
 end
 
 function container:get_mode()
-    return ter_mode
+    return new_container.ter_mode
+end
+
+function container:get()
+    return new_container
 end
 
 function container:get_bag()
-    if #bag_info == 0 then
+    if #new_container.bag == 0 then
         return {0}
     else
-        return bag_info
+        return new_container.bag
     end
 end
 
