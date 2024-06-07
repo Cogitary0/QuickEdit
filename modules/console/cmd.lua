@@ -1,6 +1,7 @@
 local editorSession = require("quickedit:editor_session")
 local preBuild = require("quickedit:build/preBuild")
 local container = require("quickedit:utils/container")
+local mainBuild = require("quickedit:build/mainBuild")
 local containerBlocks = require("quickedit:container/blocks")
 local trash = {}
 
@@ -81,7 +82,7 @@ console.add_command(
 )
 
 console.add_command(
-    "q.terraformer.mode mode:int",
+    "q.wand.mode mode:int",
     "change terraformer mode",
     function(mode)
         container:get().ter_mode = mode[1]
