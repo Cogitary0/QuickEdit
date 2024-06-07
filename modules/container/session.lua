@@ -14,6 +14,9 @@ function Session:get(index)
     return self.__session__[index] 
 end
 
+function Session:getAll() 
+    return self.__session__
+end
 
 function Session:add(data) 
     table.insert(self.__session__, {data}) 

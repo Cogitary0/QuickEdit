@@ -44,7 +44,7 @@ console.add_command(
 
 
 console.add_command(
-    "q.set mode:str filled:str=true",
+    "q.set command:str filled:str=true",
     "set <pos1> && <pos2>",
 
     function (args, kwargs)

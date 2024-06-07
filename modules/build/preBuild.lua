@@ -29,14 +29,20 @@ end
 function preBuild.undo(containerBlocks, session)
 
     local cont = session:get(session:size())
-    print(cont, containerBlocks:get(containerBlocks:size()))
 
-    for index = 1, cont:size(), 1 do
+    print(
+        containerBlocks:get().x,
+        session:size()
+        -- session:print()
+    )
+
+
+    -- for index = 1, 4, 1 do
         
-        local elements = cont:get(index)
-        block.set(elements.x, elements.y, elements.z, elements.id)
+    --     local elements = cont:get(index)
+    --     block.set(elements.x, elements.y, elements.z, elements.id)
 
-    end
+    -- end
     session:remove(session:size())
 end
 
