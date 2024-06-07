@@ -122,9 +122,9 @@ function preBuild.preSphere(pos1, pos2, filled, containerBlocks, session)
                     if dist >=radiusSqr2 and dist <= radiusSqr then
 
                         -- if id_block ~= block.get(dx, dy, dz) then
-
-                        block.set(dx, dy, dz, id_block)
                         containerBlocks:add(dx, dy, dz, block.get(dx, dy, dz))
+                        block.set(dx, dy, dz, id_block)
+                        
 
                         -- end
 
@@ -148,10 +148,8 @@ function preBuild.preSphere(pos1, pos2, filled, containerBlocks, session)
                     if dist <= radiusSqr  then
 
                         -- if id_block ~= block.get(dx, dy, dz) then
-
+                        containerBlocks:add(dx, dy, dz, block.get(dx, dy, dz))
                         block.set(dx, dy, dz, id_block)
-                        containerBlocks:add(dx, dy, dz, block.get(x, y, z))
-
                         -- end
 
                         

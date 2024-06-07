@@ -3,9 +3,7 @@ local preBuild = require("quickedit:build/preBuild")
 local container = require("quickedit:utils/container")
 local __container__ = require("quickedit:container/blocks")
 local __session__ = require("quickedit:container/session") 
-
 local ssn = __session__.new()
-
 
 
 console.add_command(
@@ -18,6 +16,7 @@ console.add_command(
     end
 )
 
+
 console.add_command(
     "q.pos2",
     "set pos2",
@@ -27,6 +26,18 @@ console.add_command(
         container:get().pos2 = {x, y, z}
     end
 )
+
+
+console.add_command(
+    "q.build",
+    "build",
+    function()
+        
+        
+
+    end
+)
+
 
 console.add_command(
     "q.undo",
@@ -78,6 +89,7 @@ console.add_command(
     end
 )
 
+
 console.add_command(
     "q.ter",
     "give terraformer",
@@ -85,6 +97,7 @@ console.add_command(
         inventory.add(0, item.index('quickedit:terraformer'), 1)
     end
 )
+
 
 console.add_command(
     "q.ter.mode mode:int",
@@ -94,6 +107,7 @@ console.add_command(
         return 'mode: ' .. mode[1]
     end
 )
+
 
 console.add_command(
     "q.link",
