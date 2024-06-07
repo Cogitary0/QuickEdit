@@ -85,7 +85,7 @@ function mainBuild.linespace(pos1, pos2, use)
 end
 
 
-function mainBuild.cuboid(pos1, pos2, use, filled)
+function mainBuild.cuboid(pos1, pos2, use, filled, dont_replace)
     local lenUse = #use
     local x0, y0, z0, x1, y1, z1 = funcUtils.__get_selection_bounds__( pos1, pos2 )
 
@@ -121,7 +121,9 @@ function mainBuild.cuboid(pos1, pos2, use, filled)
                 for dx = minX, maxX, 1 do
                     local id_block = use[math.random(1, lenUse)]
                     if block.get(dx, dy, dz) ~= id_block then
-                        block.set(dx, dy, dz, id_block)
+                        if block.get(dx, dy, dz) ~= dont_replace then
+                            block.set(dx, dy, dz, id_block)
+                        end
                     end
                 end
             end
