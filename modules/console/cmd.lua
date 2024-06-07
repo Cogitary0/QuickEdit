@@ -3,7 +3,7 @@ local preBuild = require("quickedit:build/preBuild")
 local container = require("quickedit:utils/container")
 local __container__ = require("quickedit:container/blocks")
 local __session__ = require("quickedit:container/session") 
-local cont = __container__.new()
+
 local ssn = __session__.new()
 
 
@@ -57,6 +57,7 @@ console.add_command(
             for key, func in pairs(editorSession) do
 
                 if key == command then
+                    local cont = __container__.new()
 
                     func(
                         container:get().pos1, 

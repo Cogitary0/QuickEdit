@@ -29,8 +29,7 @@ end
 function preBuild.undo(containerBlocks, session)
 
     local cont = unpack(session:get(session:size()))
-    -- print(session:size(), #cont)
-
+    
     for index = 1, #cont, 1 do
         
         local elements = cont[index]

@@ -44,7 +44,7 @@ end
 
 function Session:clear()
     
-    for value = #self.__session__, 1, -1 do
+    for value = 1, #self.__session__,  1 do
         table.remove(self.__session__, value)
     end
 
