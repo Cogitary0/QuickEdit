@@ -10,7 +10,7 @@ local ssn = __session__.new()
 
 console.add_command(
     "q.pos1",
-    "set <pos1>",
+    "set pos1",
     function (args, kwargs)
         local x, y, z = player.get_pos()
         print("pos1 set")
@@ -20,7 +20,7 @@ console.add_command(
 
 console.add_command(
     "q.pos2",
-    "set <pos2>",
+    "set pos2",
     function (args, kwargs)
         local x, y, z = player.get_pos()
         print("pos2 set")
@@ -49,7 +49,7 @@ console.add_command(
 
     function (args, kwargs)
 
-        local mode, filled = unpack(args)
+        local command, filled = unpack(args)
         filled = filled == "true"
 
         if #container:get().pos1 ~= 0 and #container:get().pos2 ~= 0 then
@@ -71,7 +71,9 @@ console.add_command(
                 end
 
             end
+
         end
+
     end
 )
 
