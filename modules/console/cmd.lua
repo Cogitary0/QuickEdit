@@ -50,15 +50,22 @@ console.add_command(
 
             if command == "del" then
 
-                preBuild.preDelete(container:get().pos1, container:get().pos2)
+                mainBuild.cuboid(container:get().pos1, container:get().pos2, {0}, true)
                 trash = {"del"}
 
             else
+                local func_exist = false
                 for key, func in pairs(preBuild) do
                     if key == command then
-                        func(container:get().pos1, container:get().pos2, filled)
+                        func(container:get().pos1, container:get().pos2, container:get().bag, filled)
+                        func_exist = true
                         break
                     end
+                end
+                if func_exist then
+                    return "Done"
+                else
+                    return "Function is not exist"
                 end
             end
         end
