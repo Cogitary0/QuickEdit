@@ -102,3 +102,15 @@ console.add_command(
     end
 )
 
+console.add_command(
+    "q.bag.info",
+    "Display bag",
+    function()
+        local text = 'INFO:\n'
+        for idx, value in pairs(container:get().bag) do
+            text = text .. idx .. '. ' .. block.name(value) .. '\n'
+        end
+        return text
+    end
+)
+
