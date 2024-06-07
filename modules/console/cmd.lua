@@ -1,9 +1,9 @@
 local editorSession = require("quickedit:editor_session")
 local preBuild = require("quickedit:build/preBuild")
 local container = require("quickedit:utils/container")
-local __container__ = require("quickedit:container/blocks")
+local mainBuild = require("quickedit:build/mainBuild")
+local containerBlocks = require("quickedit:container/blocks")
 local trash = {}
-local cont = __container__.new()
 
 
 
@@ -12,7 +12,7 @@ console.add_command(
     "set <pos1>",
     function (args, kwargs)
         local x, y, z = player.get_pos()
-        print("pos1 set")
+        print(x, y, z)
         container:get().pos1 = {x,y,z}
     end
 )
@@ -22,7 +22,7 @@ console.add_command(
     "set <pos2>",
     function (args, kwargs)
         local x, y, z = player.get_pos()
-        print("pos2 set")
+        print(x, y, z)
         container:get().pos2 = {x, y, z}
     end
 )
@@ -31,35 +31,42 @@ console.add_command(
     "q.undo",
     "reset preBuild",
     function()
-        preBuild.undo(cont)
+        preBuild.undo(containerBlocks.get())
         trash = {}
     end
 )
 
 
 console.add_command(
-    "q.set mode:str filled:str=true",
+    "q.set command:str filled:str=true",
     "set <pos1> && <pos2>",
 
     function (args, kwargs)
 
-        local mode, filled = unpack(args)
+        local command, filled = unpack(args)
         filled = filled == "true"
 
 
         if #container:get().pos1 ~= 0 and #container:get().pos2 ~= 0 then
 
-            if mode == "del" then
+            if command == "del" then
 
-                preBuild.preDelete(container:get().pos1, container:get().pos2, cont)
+                mainBuild.cuboid(container:get().pos1, container:get().pos2, {0}, true)
                 trash = {"del"}
 
             else
+                local func_exist = false
                 for key, func in pairs(preBuild) do
-                    if key == mode then
-                        func(container:get().pos1, container:get().pos2, filled)
+                    if key == command then
+                        func(container:get().pos1, container:get().pos2, container:get().bag, filled)
+                        func_exist = true
                         break
                     end
+                end
+                if func_exist then
+                    return "Done"
+                else
+                    return "Function is not exist"
                 end
             end
         end
@@ -67,7 +74,7 @@ console.add_command(
 )
 
 console.add_command(
-    "q.ter",
+    "q.wand",
     "give terraformer",
     function()
         inventory.add(0, item.index('quickedit:terraformer'), 1)
@@ -75,7 +82,7 @@ console.add_command(
 )
 
 console.add_command(
-    "q.ter.mode mode:int",
+    "q.wand.mode mode:int",
     "change terraformer mode",
     function(mode)
         container:get().ter_mode = mode[1]
