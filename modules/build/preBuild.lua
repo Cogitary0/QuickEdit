@@ -77,10 +77,52 @@ function preBuild.preLinespace(pos1, pos2, filled, containerBlocks, session)
 end
 
 
-function preBuild.cuboid(pos1, pos2, filled, containerBlocks, sessio)
-    mainBuild.cuboid(pos1, pos2, filled, containerBlocks, sessio)
-end
+function preBuild.preCuboid(pos1, pos2, filled, containerBlocks, session)
+    local id_block = block.index("quickedit:prebuildblock")
+    local x0, y0, z0, x1, y1, z1 = funcUtils.__get_selection_bounds__( pos1, pos2 )
 
+    if not filled then
+        for dx = x0, x1 do
+            for dz = z0, z1 do
+                containerBlocks:add(dx,y0,dz, block.get(dx,y0,dz))
+                containerBlocks:add(dx,y1,dz, block.get(dx,y1,dz))
+                block.set(dx, y0, dz, id_block)
+                block.set(dx, y1, dz, id_block)
+            end
+
+            for dy = y0 + 1, y1 - 1 do
+                containerBlocks:add(dx,y1,z0, block.get(dx,y1,z0))
+                containerBlocks:add(dx,y1,z1, block.get(dx,y1,z1))
+                block.set(dx, dy, z0, id_block)
+                block.set(dx, dy, z1, id_block)
+            end
+        end
+
+        for dy = y0 + 1, y1 - 1 do
+            for dz = z0 + 1, z1 - 1 do
+                containerBlocks:add(x0,y1,dz, block.get(x1,y1,dz))
+                containerBlocks:add(x1,y1,dz, block.get(x0,y1,dz))
+                block.set(x0, dy, dz, id_block)
+                block.set(x1, dy, dz, id_block)
+            end
+        end
+
+    else
+
+        local minX, maxX, minY, maxY, minZ, maxZ = funcUtils.__minmax__(pos1, pos2)
+
+        for dy = minY, maxY, 1 do
+            for dz = minZ, maxZ, 1 do
+                for dx = minX, maxX, 1 do
+                    containerBlocks:add(dx,dy,dz, block.get(dx,dy,dz))
+                    block.set(dx, dy, dz, id_block)
+                end
+            end
+        end
+
+    end
+    session:add(containerBlocks:getAll())
+end
 
 function preBuild.circle(pos1, pos2, filled, containerBlocks, sessio)
     mainBuild.circle(pos1, pos2, filled, containerBlocks, sessio)

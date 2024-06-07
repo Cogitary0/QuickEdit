@@ -5,7 +5,7 @@ local editorSession = {}
 
 function editorSession.del(pos1, pos2, filled, container, session) preBuild.preDelete(pos1, pos2, container, session) end
 
-function editorSession.fill(pos1, pos2, filled, container, session) preBuild.preCuboid(pos1, pos2, filled, container, session) end
+-- function editorSession.fill(pos1, pos2, filled, container, session) preBuild.preCuboid(pos1, pos2, filled, container, session) end
 
 function editorSession.line(pos1, pos2, filled, container, session) preBuild.preLinespace(pos1, pos2, filled, container, session) end
 
@@ -21,7 +21,7 @@ function editorSession.cyl(pos1, pos2, filled, container, session) preBuild.preC
 
 function editorSession.replace(pos1, pos2, filled, container, session, replace) preBuild.preReplace(pos1, pos2, filled, container, session, replace) end
 
-function editorSession.undo(container, session) preBuild.undo(container, session) end
+function editorSession.undo(session) preBuild.undo(session) end
 
 return editorSession
 

@@ -33,7 +33,7 @@ console.add_command(
     "build",
     function()
         
-        
+        --
 
     end
 )
@@ -46,7 +46,7 @@ console.add_command(
 
         if ssn:size() > 0 then
 
-            editorSession.undo(cont, ssn)
+            editorSession.undo(ssn)
 
         end
 
@@ -61,8 +61,7 @@ console.add_command(
     function (args, kwargs)
 
         local command, filled = unpack(args)
-        filled = filled == "true"
-
+        print(filled)
         if #container:get().pos1 ~= 0 and #container:get().pos2 ~= 0 then
 
             for key, func in pairs(editorSession) do
@@ -108,12 +107,4 @@ console.add_command(
     end
 )
 
-
-console.add_command(
-    "q.link",
-    "",
-    function()
-        ssn:print()
-    end
-)
 
