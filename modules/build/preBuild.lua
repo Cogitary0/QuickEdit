@@ -14,6 +14,7 @@ function preBuild.preDelete(pos1, pos2, containerBlocks, session)
         for dz = minZ, maxZ, 1 do
             for dx = minX, maxX, 1 do
                 containerBlocks:add(dx,dy,dz,block.get(dx,dy,dz))
+                containerBlocks:add(dx,dy,dz,block.get(dx,dy,dz))
                 block.set(dx, dy, dz, ID_PRE_BUILD_BLOCK)
             end
         end

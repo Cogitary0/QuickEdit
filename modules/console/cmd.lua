@@ -44,12 +44,12 @@ console.add_command(
 
 
 console.add_command(
-    "q.set command:str filled:str=true",
+    "q.set mode:str filled:str=true",
     "set <pos1> && <pos2>",
 
     function (args, kwargs)
 
-        local command, filled = unpack(args)
+        local mode, filled = unpack(args)
         filled = filled == "true"
 
         if #container:get().pos1 ~= 0 and #container:get().pos2 ~= 0 then
@@ -71,7 +71,6 @@ console.add_command(
                 end
 
             end
-
         end
     end
 )
