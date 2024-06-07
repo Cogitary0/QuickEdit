@@ -1,6 +1,8 @@
 local tblu = require('quickedit:utils/table_utils')
 local funcUtils = require('quickedit:utils/func_utils')
 local const = require('quickedit:constants')
+local perlin = require 'quickedit:utils/perlin'
+local pm = require("quickedit:utils/pos_manager")
 
 local mainBuild = {}
 
@@ -133,6 +135,11 @@ function mainBuild.cuboid(pos1, pos2, use, filled, dont_replace)
 
 end
 
+function mainBuild.terrain(pos1, pos2, use, conf)
+    perlin.seed = math.random(1, 10000)
+    local noise = perlin.perlin2matrix(perlin, pm.euclidean_dist(pos1, pos2), pm.euclidean_dist(pos1, pos2))
+    perlin.build(noise, pos1[1], pos1[2], pos1[3], use, conf)
+end
 
 function mainBuild.circle(pos1, pos2, use)
 
