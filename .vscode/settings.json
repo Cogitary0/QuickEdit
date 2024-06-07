@@ -3,6 +3,7 @@
         "undefined-global",
         "deprecated",
         "trailing-space",
-        "lowercase-global"
+        "lowercase-global",
+        "redefined-local"
     ]
 }
