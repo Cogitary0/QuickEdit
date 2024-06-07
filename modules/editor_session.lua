@@ -1,25 +1,27 @@
 --temporary solution
-local mainBuild = require("quickedit:build/mainBuild")
+local preBuild = require("quickedit:build/preBuild")
 
 local editorSession = {}
 
-function editorSession.delete(pos1, pos2) mainBuild.delete(pos1, pos2) end
+function editorSession.del(pos1, pos2, filled, container, session) preBuild.preDelete(pos1, pos2, container, session) end
 
-function editorSession.fill(pos1, pos2, use) mainBuild.cuboid(pos1, pos2, use, true) end
+function editorSession.fill(pos1, pos2, filled, container, session) preBuild.preCuboid(pos1, pos2, filled, container, session) end
 
-function editorSession.linespace(pos1, pos2, use) mainBuild.linespace(pos1, pos2, use) end
+function editorSession.line(pos1, pos2, filled, container, session) preBuild.preLinespace(pos1, pos2, filled, container, session) end
 
-function editorSession.cuboid(pos1, pos2, use) mainBuild.cuboid(pos1, pos2, use, false) end
+function editorSession.cuboid(pos1, pos2, filled, container, session) preBuild.preCuboid(pos1, pos2, filled, container, session) end
 
-function editorSession.circle(pos1, pos2, use) mainBuild.circle(pos1, pos2, use) end
+function editorSession.circle(pos1, pos2, filled, container, session) preBuild.preCircle(pos1, pos2, filled, container, session) end
 
-function editorSession.serp(pos1, pos2, use) mainBuild.serp(pos1, pos2, use) end
+function editorSession.serp(pos1, pos2, filled, container, session) preBuild.preSerp(pos1, pos2, filled, container, session) end
 
-function editorSession.sphere(pos1, pos2, use) mainBuild.sphere(pos1, pos2, use) end
+function editorSession.ball(pos1, pos2, filled, container, session) preBuild.preSphere(pos1, pos2, filled, container, session) end
 
-function editorSession.cylinder(pos1, pos2, use) mainBuild.cylinder(pos1, pos2, use, true) end
+function editorSession.cyl(pos1, pos2, filled, container, session) preBuild.preCylinder(pos1, pos2, filled, container, session) end
 
-function editorSession.replace(pos1, pos2, use, replace) mainBuild.replace(pos1, pos2, use, replace) end
+function editorSession.replace(pos1, pos2, filled, container, session, replace) preBuild.preReplace(pos1, pos2, filled, container, session, replace) end
+
+function editorSession.undo(container, session) preBuild.undo(container, session) end
 
 return editorSession
 
