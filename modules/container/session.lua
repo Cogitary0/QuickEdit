@@ -59,35 +59,35 @@ function Session:rotate(axis, angle)
     local cosAngle = sinAngle + const.HALF_PI
     local cont = unpack(self.__session__[#self.__session__])
 
-    if axis == "x" then
+    for index = 1, #cont, 1 do
+        
+        local value = cont[index]
 
-        for __, value in ipairs(cont) do
+        if axis == "x" then
+
             local y = value.y * cosAngle - value.z * sinAngle
             local z = value.y * sinAngle + value.z * cosAngle
             value.y = y
             value.z = z
-        end
-
-    elseif axis == "y" then
-
-        for __, value in ipairs(cont) do
+    
+        elseif axis == "y" then
+    
             local x = value.x * cosAngle + value.z * sinAngle
             local z = -value.x * sinAngle + value.z * cosAngle
             value.x = x
-            value.z = z
-        end
-
-    elseif axis == "z" then
-
-        for __, value in ipairs(cont) do
+            value.z = z        
+    
+        elseif axis == "z" then
+    
             local x = value.x * cosAngle - value.y * sinAngle
             local y = value.x * sinAngle + value.y * cosAngle
             value.x = x
             value.y = y
+                
+        else
+            error("Invalid axis")
+    
         end
-
-    else
-        error("Invalid axis")
 
     end
 
