@@ -39,7 +39,22 @@ console.add_command(
         
         if ssn:size() > 0 then
             
-            editorSession.build(ssn)
+            editorSession.build(ssn, false)
+
+        end
+
+    end
+)
+
+
+console.add_command(
+    "q.build.replace",
+    "Build",
+    function()
+        
+        if ssn:size() > 0 then
+            
+            editorSession.build(ssn, true)
 
         end
 

@@ -1,5 +1,6 @@
 local mainBuild = require("quickedit:build/mainBuild")
 local funcUtils = require("quickedit:utils/func_utils")
+local tblu = require("quickedit:utils/table_utils")
 local container = require("quickedit:utils/container")
 local containerBlocksClass = require("quickedit:container/blocks")
 local sessionContainerBlocksClass = require("quickedit:container/session")
@@ -83,21 +84,57 @@ function preBuild.undo(session)
 end
 
 
-function preBuild.build(session)
+function preBuild.build(session, replaceQ)
 
     local cont = unpack(session:get(session:size()))
-    
-    for index = 1, #cont, 1 do
+    local bag = container:get_bag()
+    local use, replace = {}, {}
 
-        local id_block = container:get_bag()[math.random(1, #container:get_bag())] 
+    if not replaceQ then
+    
+        for index = 1, #cont, 1 do
+
+            local id_block = bag[math.random(1, #bag)] 
+            
+            local elements = cont[index]
+            block.set(
+                elements.x, 
+                elements.y, 
+                elements.z, 
+                id_block
+            )
+
+        end
+
+    else
+
+        for it = 1, #bag, 1 do
         
-        local elements = cont[index]
-        block.set(
-            elements.x, 
-            elements.y, 
-            elements.z, 
-            id_block
-        )
+            if it % 2 ~= 0 then
+                
+                table.insert(use, bag[it])
+    
+            else
+    
+                table.insert(replace, bag[it])
+    
+            end
+    
+        end
+
+        for index = 1, #cont, 1 do
+
+            local elements = cont[index]
+            local id_block = tblu.find(replace, block.get(elements.x, elements.y, elements.z))
+
+            block.set(
+                elements.x, 
+                elements.y, 
+                elements.z, 
+                id_block
+            )
+
+        end
 
     end
 

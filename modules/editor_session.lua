@@ -17,11 +17,11 @@ function editorSession.ball(pos1, pos2, filled, container, session) preBuild.pre
 
 function editorSession.cyl(pos1, pos2, filled, container, session) preBuild.preCylinder(pos1, pos2, filled, container, session) end
 
--- function editorSession.replace(pos1, pos2, filled, container, session, replace) preBuild.preReplace(pos1, pos2, filled, container, session, replace) end
+function editorSession.replace(pos1, pos2, filled, container, session) preBuild.preReplace(pos1, pos2, filled, container, session) end
 
 function editorSession.undo(session) preBuild.undo(session) end
 
-function editorSession.build(session) preBuild.build(session) end
+function editorSession.build(session, replaceQ) preBuild.build(session, replaceQ) end
 
 return editorSession
 
