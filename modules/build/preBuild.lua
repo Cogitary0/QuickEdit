@@ -7,23 +7,65 @@ local preBuild = {}
 
 
 -- main func
--- function preBuild.preDelete(pos1, pos2, containerBlocks, session) 
+function preBuild.scaffold(pos1, pos2, containerBlocks, session) 
     
---     local ID_PRE_BUILD_BLOCK = block.index("quickedit:prebuildblock")
---     local minX, maxX, minY, maxY, minZ, maxZ = funcUtils.__minmax__(pos1, pos2)
+    local ID_PRE_BUILD_BLOCK = block.index("quickedit:prebuildblock")
+    local minX, maxX, minY, maxY, minZ, maxZ = funcUtils.__minmax__(pos1, pos2)
     
---     for dy = minY, maxY, 1 do
---         for dz = minZ, maxZ, 1 do
---             for dx = minX, maxX, 1 do
---                 if is_solid_at(dx, dy, dz) or block.get(dx, dy, dz) ~= ID_NULL_BLOCK then
---                     containerBlocks:add(dx,dy,dz,block.get(dx,dy,dz))
---                     block.set(dx, dy, dz, ID_PRE_BUILD_BLOCK)
---                 end
---             end
---         end
---     end
---     session:add(containerBlocks:getAll())
--- end
+    local x1, y1, z1 = unpack(pos1)
+    local x2, y2, z2 = unpack(pos2)
+
+    local minX = math.min(x1, x2)
+    local minY = math.min(y1, y2)
+    local minZ = math.min(z1, z2)
+    local maxX = math.max(x1, x2)
+    local maxY = math.max(y1, y2)
+    local maxZ = math.max(z1, z2)
+
+    -- Нижняя грань
+    for x = minX, maxX do
+        for z = minZ, maxZ do
+            block.set(x, minY, z, ID_PRE_BUILD_BLOCK)
+        end
+    end
+
+    -- Верхняя грань
+    for x = minX, maxX do
+        for z = minZ, maxZ do
+            block.set(x, maxY, z, ID_PRE_BUILD_BLOCK)
+        end
+    end
+
+    -- Левая грань
+    for y = minY, maxY do
+        for z = minZ, maxZ do
+            block.set(minX, y, z, ID_PRE_BUILD_BLOCK)
+        end
+    end
+
+    -- Правая грань
+    for y = minY, maxY do
+        for z = minZ, maxZ do
+            block.set(maxX, y, z, ID_PRE_BUILD_BLOCK)
+        end
+    end
+
+    -- Передняя грань
+    for x = minX, maxX do
+        for y = minY, maxY do
+            block.set(x, y, minZ, ID_PRE_BUILD_BLOCK)
+        end
+    end
+
+    -- Задняя грань
+    for x = minX, maxX do
+        for y = minY, maxY do
+            block.set(x, y, maxZ, ID_PRE_BUILD_BLOCK)
+        end
+    end
+
+    -- session:add(containerBlocks:getAll())
+end
 
 
 function preBuild.undo(session)

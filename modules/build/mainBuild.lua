@@ -5,19 +5,14 @@ local const = require('quickedit:constants')
 local mainBuild = {}
 
 -- future func
-function mainBuild.delete(contBlocks)
+function mainBuild.delete(pos1, pos2)
 
-    
-    local lenCB = #contBlocks
-    local minX, maxX, minY, maxY, minZ, maxZ = funcUtils.__minmax__(
-        {contBlocks[1].x, contBlocks[1].y, contBlocks[1].z}, 
-        {contBlocks[lenCB].x, contBlocks[lenCB].y, contBlocks[lenCB].z}
-    )
+    local minX, maxX, minY, maxY, minZ, maxZ = funcUtils.__minmax__(pos1, pos2)
         
     for dy = minY, maxY, 1 do
         for dz = minZ, maxZ, 1 do
             for dx = minX, maxX, 1 do
-                if is_solid_at(dx, dy, dz) or block.get(dx, dy, dz) ~= ID_NULL_BLOCK then
+                if is_solid_at(dx, dy, dz) then
                     block.set(dx, dy, dz, 0)
                 end
             end
@@ -85,50 +80,60 @@ function mainBuild.linespace(pos1, pos2, use)
 end
 
 
-function mainBuild.cuboid(pos1, pos2, use, filled, dont_replace)
+function mainBuild.fill(pos1, pos2, use)
+
+    local minX, maxX, minY, maxY, minZ, maxZ = funcUtils.__minmax__(pos1, pos2)
+
+    for dy = minY, maxY, 1 do
+
+        for dz = minZ, maxZ, 1 do
+            
+            for dx = minX, maxX, 1 do
+
+                local id_block = use[math.random(1, #use)]
+
+                if block.get(dx, dy, dz) ~= id_block then
+
+                    if block.get(dx, dy, dz) ~= dont_replace then
+                        block.set(dx, dy, dz, id_block)
+                    end
+
+                end
+
+            end
+
+        end
+
+    end
+
+end
+
+
+function mainBuild.cuboid(pos1, pos2, use, dont_replace)
     local lenUse = #use
     local x0, y0, z0, x1, y1, z1 = funcUtils.__get_selection_bounds__( pos1, pos2 )
 
-    if not filled then
-        for dx = x0, x1 do
-            for dz = z0, z1 do
-                local id_block = use[math.random(1, lenUse)]
-                block.set(dx, y0, dz, id_block)
-                block.set(dx, y1, dz, id_block)
-            end
 
-            for dy = y0 + 1, y1 - 1 do
-                local id_block = use[math.random(1, lenUse)]
-                block.set(dx, dy, z0, id_block)
-                block.set(dx, dy, z1, id_block)
-            end
+    for dx = x0, x1 do
+        for dz = z0, z1 do
+            local id_block = use[math.random(1, lenUse)]
+            block.set(dx, y0, dz, id_block)
+            block.set(dx, y1, dz, id_block)
         end
 
         for dy = y0 + 1, y1 - 1 do
-            for dz = z0 + 1, z1 - 1 do
-                local id_block = use[math.random(1, lenUse)]
-                block.set(x0, dy, dz, id_block)
-                block.set(x1, dy, dz, id_block)
-            end
+            local id_block = use[math.random(1, lenUse)]
+            block.set(dx, dy, z0, id_block)
+            block.set(dx, dy, z1, id_block)
         end
+    end
 
-    else
-
-        local minX, maxX, minY, maxY, minZ, maxZ = funcUtils.__minmax__(pos1, pos2)
-
-        for dy = minY, maxY, 1 do
-            for dz = minZ, maxZ, 1 do
-                for dx = minX, maxX, 1 do
-                    local id_block = use[math.random(1, lenUse)]
-                    if block.get(dx, dy, dz) ~= id_block then
-                        if block.get(dx, dy, dz) ~= dont_replace then
-                            block.set(dx, dy, dz, id_block)
-                        end
-                    end
-                end
-            end
+    for dy = y0 + 1, y1 - 1 do
+        for dz = z0 + 1, z1 - 1 do
+            local id_block = use[math.random(1, lenUse)]
+            block.set(x0, dy, dz, id_block)
+            block.set(x1, dy, dz, id_block)
         end
-
     end
 
 end
