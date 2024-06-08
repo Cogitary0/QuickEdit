@@ -1,5 +1,6 @@
 Container = {}
 Container.__index = Container
+local const = require("quickedit:constants")
 
 function Container.new()
 
@@ -65,6 +66,47 @@ function Container:printAll()
 
     for __, value in ipairs(self.cont) do
         print("x: ", value.x, "y: ", value.y, "z: ", value.z, "id: ", value.id)
+    end
+
+end
+
+
+function Container:rotate(axis, angle)
+
+    local rad = angle * const.DEGREE
+    local sinAngle = math.sin(rad)
+    local cosAngle = sinAngle + const.HALF_PI
+
+    if axis == "x" then
+
+        for __, value in ipairs(self.cont) do
+            local y = value.y * cosAngle - value.z * sinAngle
+            local z = value.y * sinAngle + value.z * cosAngle
+            value.y = y
+            value.z = z
+        end
+
+    elseif axis == "y" then
+
+        for __, value in ipairs(self.cont) do
+            local x = value.x * cosAngle + value.z * sinAngle
+            local z = -value.x * sinAngle + value.z * cosAngle
+            value.x = x
+            value.z = z
+        end
+
+    elseif axis == "z" then
+
+        for __, value in ipairs(self.cont) do
+            local x = value.x * cosAngle - value.y * sinAngle
+            local y = value.x * sinAngle + value.y * cosAngle
+            value.x = x
+            value.y = y
+        end
+
+    else
+        error("Invalid axis")
+
     end
 
 end

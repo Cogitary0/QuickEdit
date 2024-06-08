@@ -69,6 +69,19 @@ console.add_command(
     end
 )
 
+console.add(
+    "q.rot angle:num",
+    "rotate preBuild",
+
+    function(args)
+        
+        local angle = unpack(args)
+
+        
+
+    end
+)
+
 
 console.add_command(
     "q.set command:str filled:str=true",
