@@ -131,7 +131,7 @@ console.add_command(
     function(arg)
         local mode = arg[1]
         container:get().ter_mode = mode
-        return 'mode: ' .. mode .. " " .. const.MODES[mode]
+        return 'mode: (' .. mode .. ") " .. const.MODES[mode]
     end
 )
 
