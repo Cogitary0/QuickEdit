@@ -9,48 +9,58 @@ local ssn = __session__.new()
 
 console.add_command(
     "q.pos1",
-    "set pos1",
+    "Set pos1",
     function ()
         local x, y, z = player.get_pos()
-        print("pos1 set")
         container:get().pos1 = {x,y,z}
+        return "pos1:" .. " " .. "(" .. x .. ", " .. y .. ", " .. z .. ")"
     end
 )
 
 
 console.add_command(
     "q.pos2",
-    "set pos2",
+    "Set pos2",
     function ()
         local x, y, z = player.get_pos()
-        print("pos2 set")
         container:get().pos2 = {x, y, z}
+        return "pos2:" .. " " .. "(" .. x .. ", " .. y .. ", " .. z .. ")"
     end
 )
 
 
 console.add_command(
     "q.build",
-    "build",
+    "Build",
     function()
         
-        local cont = unpack(ssn:get(ssn:size()))
-    
-        for index = 1, #cont, 1 do
-
-            local id_block = container:get_bag()[math.random(1, #container:get_bag())] 
+        if ssn:size() > 0 then
             
-            local elements = cont[index]
-            block.set(
-                elements.x, 
-                elements.y, 
-                elements.z, 
-                id_block
-            )
-    
+            editorSession.build(ssn)
+
         end
-    
-        ssn:remove(ssn:size())
+
+    end
+)
+
+
+console.add_command(
+    "q.build.info",
+    "Get info about builds",
+    function()
+
+        local text = "INFO:\n"
+        if ssn:size() > 0 then
+            
+            for num, containers in ipairs(ssn:getAll()) do
+                
+                text = "[Amout builds]: " .. num .. ", [All blocks]: " ..  #unpack(containers) .. "\n"
+
+            end
+
+        end
+
+        return text
 
     end
 )
@@ -72,10 +82,10 @@ console.add_command(
 
 
 console.add_command(
-    "q.set command:str filled:str=true",
+    "q.set command:str filled:str",
     "set <pos1> && <pos2>",
 
-    function (args, kwargs)
+    function (args)
 
         local command, filled = unpack(args)
 
@@ -108,7 +118,7 @@ console.add_command(
 
 console.add_command(
     "q.ter",
-    "give terraformer",
+    "Give terraformer",
     function()
         inventory.add(0, item.index('quickedit:terraformer'), 1)
     end
@@ -117,7 +127,7 @@ console.add_command(
 
 console.add_command(
     "q.ter.mode mode:int",
-    "change terraformer mode",
+    "Change terraformer mode",
     function(arg)
         local mode = arg[1]
         container:get().ter_mode = mode
@@ -128,12 +138,38 @@ console.add_command(
 
 console.add_command(
     "q.bag",
-    "give terraformer",
+    "Give terraformer",
     function()
         inventory.add(0, item.index('quickedit:bag'), 1)
     end
 )
 
+
+console.add_command(
+    "q.bag.add id_block:int",
+    "Add block in bag",
+    function(arg)
+
+        local id_block = arg[1]
+        table.insert(container:get().bag, id_block)
+        return "Add block: " .. block.name(id_block)
+
+    end
+)
+
+
+console.add_command(
+    "q.bag.del position:int",
+    "Delete block by postion",
+    function(pos)
+    
+        local postionBlock = pos[1]
+        local del_block = container:get().bag[postionBlock]
+        table.remove(container:get().bag, postionBlock)
+        return "Del block: " .. del_block
+    
+    end
+)
 
 console.add_command(
     "q.bag.info",

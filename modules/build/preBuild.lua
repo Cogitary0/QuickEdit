@@ -83,6 +83,29 @@ function preBuild.undo(session)
 end
 
 
+function preBuild.build(session)
+
+    local cont = unpack(session:get(session:size()))
+    
+    for index = 1, #cont, 1 do
+
+        local id_block = container:get_bag()[math.random(1, #container:get_bag())] 
+        
+        local elements = cont[index]
+        block.set(
+            elements.x, 
+            elements.y, 
+            elements.z, 
+            id_block
+        )
+
+    end
+
+    session:remove(session:size())
+
+end
+
+
 function preBuild.preLinespace(pos1, pos2, filled, containerBlocks, session)
 
     local x0, y0, z0 = unpack(pos1)
@@ -103,19 +126,18 @@ function preBuild.preLinespace(pos1, pos2, filled, containerBlocks, session)
         local __y = y0 + stepY * i
         local __z = z0 + stepZ * i
         
-        -- if block.is_replaceable_at(__x, __y, __z) or block.get(__x, __y, __z) ~= id_block then
-
         containerBlocks:add(__x, __y, __z, block.get(__x, __y, __z))
-        block.set(__x, __y, __z,id_block)
 
-        -- end
+        if block.is_replaceable_at(__x, __y, __z) or block.get(__x, __y, __z) ~= id_block then
+
+            block.set(__x, __y, __z,id_block)
+
+        end
 
     end
     session:add(containerBlocks:getAll())
 
-    -- containerBlocks:add(x1, y1, z1, block.get(x1, y1, z1))
-    -- block.set(x0, y0, z0, 0)
-    -- block.set(x1, y1, z1, 0)
+
 end
 
 
@@ -183,6 +205,7 @@ function preBuild.circle(pos1, pos2, filled, containerBlocks, sessio)
             local __z = z0 + radius * math.sin(phiRad)
             containerBlocks:add(__x, y0, __z, block.get(__x, y0, __z))
             block.set(__x, y0, __z,id_block)
+
         end
 
     elseif math.abs(z1 - z0) > 3 then
@@ -193,6 +216,7 @@ function preBuild.circle(pos1, pos2, filled, containerBlocks, sessio)
             local __y = y0 + radius * math.sin(phiRad)
             containerBlocks:add(__x, __y, z0, block.get(__x, __y, z0))
             block.set(__x, __y, z0, id_block)
+
         end
 
     elseif math.abs(x1 - x0) > 3 then
@@ -203,15 +227,41 @@ function preBuild.circle(pos1, pos2, filled, containerBlocks, sessio)
             local __z = z0 + radius * math.sin(phiRad)
             containerBlocks:add(x0, __y, __z, block.get(x0, __y, __z))
             block.set(x0, __y, __z, id_block)
+
         end
     end
 
     session:add(containerBlocks:getAll())
+
 end
 
 
-function preBuild.serp(pos1, pos2, filled, containerBlocks, sessio)
-    mainBuild.serp(pos1, pos2, filled, containerBlocks, sessio)
+function preBuild.preSerp(pos1, pos2, filled, containerBlocks, sessio)
+
+    local x0, y0, z0 = unpack(pos1)
+    local id_block =  block.index("quickedit:prebuildblock")
+    local radius = funcUtils.__round__(funcUtils.__distance__(pos1, pos2))
+
+    local function divide(x, y, z, r)
+
+        if r <= 1 then
+            containerBlocks:add(x, y, z, block.get(x, y, z))
+            block.set(x, y, z, id_block)
+        else
+            local r2 = r / 2
+            divide(x - r2, y, z, r2)
+            divide(x + r2, y, z, r2)
+            divide(x, y - r2, z, r2)
+            divide(x, y + r2, z, r2)
+            divide(x, y, z - r2, r2)
+            divide(x, y, z + r2, r2)
+        end
+
+    end
+
+    divide(x0, y0, z0, radius)
+    session:add(containerBlocks:getAll())
+
 end
 
 
