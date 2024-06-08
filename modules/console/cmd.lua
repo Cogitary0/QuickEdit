@@ -49,7 +49,7 @@ console.add_command(
 
 console.add_command(
     "q.build.replace",
-    "Build",
+    "Replace",
     function()
         
         if ssn:size() > 0 then
@@ -100,7 +100,7 @@ console.add_command(
 
 
 console.add_command(
-    "q.set command:str filled:str=false",
+    "q.set command:str filled:str",
     "set <pos1> && <pos2>",
 
     function (args)
