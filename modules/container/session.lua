@@ -57,10 +57,11 @@ function Session:rotate(axis, angle)
     local rad = angle * const.DEGREE
     local sinAngle = math.sin(rad)
     local cosAngle = sinAngle + const.HALF_PI
+    local cont = unpack(self.__session__[#self.__session__])
 
     if axis == "x" then
 
-        for __, value in ipairs(self.cont) do
+        for __, value in ipairs(cont) do
             local y = value.y * cosAngle - value.z * sinAngle
             local z = value.y * sinAngle + value.z * cosAngle
             value.y = y
@@ -69,7 +70,7 @@ function Session:rotate(axis, angle)
 
     elseif axis == "y" then
 
-        for __, value in ipairs(self.cont) do
+        for __, value in ipairs(cont) do
             local x = value.x * cosAngle + value.z * sinAngle
             local z = -value.x * sinAngle + value.z * cosAngle
             value.x = x
@@ -78,7 +79,7 @@ function Session:rotate(axis, angle)
 
     elseif axis == "z" then
 
-        for __, value in ipairs(self.cont) do
+        for __, value in ipairs(cont) do
             local x = value.x * cosAngle - value.y * sinAngle
             local y = value.x * sinAngle + value.y * cosAngle
             value.x = x
