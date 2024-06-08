@@ -1,5 +1,6 @@
 Session = {}
 Session.__index = Session
+local const = require("quickedit:constants")
 
 function Session.new()
     
@@ -49,6 +50,48 @@ function Session:clear()
     end
 
 end
+
+
+function Session:rotate(axis, angle)
+
+    local rad = angle * const.DEGREE
+    local sinAngle = math.sin(rad)
+    local cosAngle = sinAngle + const.HALF_PI
+
+    if axis == "x" then
+
+        for __, value in ipairs(self.cont) do
+            local y = value.y * cosAngle - value.z * sinAngle
+            local z = value.y * sinAngle + value.z * cosAngle
+            value.y = y
+            value.z = z
+        end
+
+    elseif axis == "y" then
+
+        for __, value in ipairs(self.cont) do
+            local x = value.x * cosAngle + value.z * sinAngle
+            local z = -value.x * sinAngle + value.z * cosAngle
+            value.x = x
+            value.z = z
+        end
+
+    elseif axis == "z" then
+
+        for __, value in ipairs(self.cont) do
+            local x = value.x * cosAngle - value.y * sinAngle
+            local y = value.x * sinAngle + value.y * cosAngle
+            value.x = x
+            value.y = y
+        end
+
+    else
+        error("Invalid axis")
+
+    end
+
+end
+
 
 
 return Session
