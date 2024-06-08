@@ -31,9 +31,9 @@ local function get_lowest_block(x, y, z)
     return {bl, y-layer+1}
 end
 
-function mainBuild.layering(x, y, z)
-    local x1, x2 = x - 3, x + 3
-    local z1, z2 = z - 3, z + 3
+function mainBuild.layering(x, y, z, radius)
+    local x1, x2 = x - radius, x + radius
+    local z1, z2 = z - radius, z + radius
 
     for x = math.min(x1, x2), math.max(x1, x2) do
         for z = math.min(z1, z2), math.max(z1, z2) do
@@ -80,7 +80,7 @@ function mainBuild.linespace(pos1, pos2, use)
 end
 
 
-function mainBuild.fill(pos1, pos2, use)
+function mainBuild.fill(pos1, pos2, use, dont_replace)
 
     local minX, maxX, minY, maxY, minZ, maxZ = funcUtils.__minmax__(pos1, pos2)
 
@@ -108,8 +108,37 @@ function mainBuild.fill(pos1, pos2, use)
 
 end
 
+function mainBuild.paint(pos1, pos2, use)
 
-function mainBuild.cuboid(pos1, pos2, use, dont_replace)
+    local minX, maxX, minY, maxY, minZ, maxZ = funcUtils.__minmax__(pos1, pos2)
+
+    for dy = minY, maxY, 1 do
+
+        for dz = minZ, maxZ, 1 do
+            
+            for dx = minX, maxX, 1 do
+
+                local id_block = use[math.random(1, #use)]
+
+                if block.get(dx, dy, dz) ~= id_block then
+
+                    if block.is_replaceable_at(dx, dy, dz) == false then
+                        block.set(dx, dy, dz, id_block)
+                    end
+
+                end
+
+            end
+
+        end
+
+    end
+
+end
+
+
+
+function mainBuild.cuboid(pos1, pos2, use)
     local lenUse = #use
     local x0, y0, z0, x1, y1, z1 = funcUtils.__get_selection_bounds__( pos1, pos2 )
 

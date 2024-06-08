@@ -1,28 +1,12 @@
 {
   "blocks": [
-    "delete",
-    "fill",
-    "cuboid",
-    "replacement",
-    "sphere",
-    "linespace",
-    "circle",
-    "gyro",
-    "cylinder",
-    "randbox",
-    "prebuildblock"
+    "prebuildblock",
+    "pos1",
+    "pos2"
   ],
   "items": [
-    "delete.item",
-    "circle.item",
-    "fill.item",
-    "gyro.item",
-    "linespace.item",
-    "sphere.item",
-    "cylinder.item",
-    "cuboid.item",
-    "replacement.item",
     "bag",
-    "terraformer"
+    "terraformer",
+    "laser"
   ]
 }

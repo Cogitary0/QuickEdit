@@ -1,5 +1,6 @@
 local editorSession = require("quickedit:editor_session")
 local preBuild = require("quickedit:build/preBuild")
+local psm = require("quickedit:utils/pos_manager")
 local container = require("quickedit:utils/container")
 local const = require("quickedit:constants")
 local __container__ = require("quickedit:container/blocks")
@@ -12,7 +13,8 @@ console.add_command(
     "Set pos1",
     function ()
         local x, y, z = player.get_pos()
-        container:get().pos1 = {x,y,z}
+        x, y, z = math.floor( x ), math.floor( y ), math.floor( z )
+        psm.change_pos1(x, y, z)
         return "pos1:" .. " " .. "(" .. x .. ", " .. y .. ", " .. z .. ")"
     end
 )
@@ -23,7 +25,8 @@ console.add_command(
     "Set pos2",
     function ()
         local x, y, z = player.get_pos()
-        container:get().pos2 = {x, y, z}
+        x, y, z = math.floor( x ), math.floor( y ), math.floor( z )
+        psm.change_pos2(x, y, z)
         return "pos2:" .. " " .. "(" .. x .. ", " .. y .. ", " .. z .. ")"
     end
 )
@@ -104,11 +107,12 @@ console.add_command(
                         ssn
                     )
 
-                    break
+                    return
 
                 end
 
             end
+            return 'command not found'
 
         end
 
@@ -124,14 +128,32 @@ console.add_command(
     end
 )
 
+console.add_command(
+    "q.ter.radius radius:int",
+    "Set radius build",
+    function(arg)
+        local radius = arg[1]
+        if radius > 0 then
+            container:get().ter_radius = radius
+            return "Radius: " .. radius
+        else
+            return "The radius must be greater than 0"
+        end
+    end
+)
+
 
 console.add_command(
     "q.ter.mode mode:int",
     "Change terraformer mode",
     function(arg)
         local mode = arg[1]
-        container:get().ter_mode = mode
-        return 'mode: (' .. mode .. ") " .. const.MODES[mode]
+        if const.MODES[mode] ~= nil then
+            container:get().ter_mode = mode
+            return 'mode: ' .. mode .. " " .. const.MODES[mode]
+        else
+            return 'mode: ' .. mode .. ' not found'
+        end
     end
 )
 
@@ -152,8 +174,11 @@ console.add_command(
 
         local id_block = arg[1]
         table.insert(container:get().bag, id_block)
-        return "Add block: " .. block.name(id_block)
-
+        if id_block > -1 and id_block <= block.defs_count() then
+            return "Add block: " .. block.name(id_block)
+        else
+            return 'block: ' .. id_block .. ' was not found'
+        end
     end
 )
 
@@ -165,9 +190,12 @@ console.add_command(
     
         local postionBlock = pos[1]
         local del_block = container:get().bag[postionBlock]
-        table.remove(container:get().bag, postionBlock)
-        return "Del block: " .. del_block
-    
+        if del_block ~= nil then
+            table.remove(container:get().bag, postionBlock)
+            return "Del block: " .. del_block
+        else
+            return 'block: ' .. postionBlock .. ' was not found'
+        end
     end
 )
 
