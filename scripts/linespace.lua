@@ -1,4 +1,4 @@
-local editor = require("quickedit:editor_session")
+local editor = require("quickedit:build/mainBuild")
 local container = require('quickedit:utils/container')
 
 local put_block_line = 0

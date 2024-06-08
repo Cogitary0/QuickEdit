@@ -1,4 +1,4 @@
-local editor = require("quickedit:editor_session")
+local editor = require("quickedit:build/mainBuild")
 
 local click_delete = 0
 local start_pos_delete = {0, 0, 0}

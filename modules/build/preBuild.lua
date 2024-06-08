@@ -7,23 +7,23 @@ local preBuild = {}
 
 
 -- main func
-function preBuild.preDelete(pos1, pos2, containerBlocks, session) 
+-- function preBuild.preDelete(pos1, pos2, containerBlocks, session) 
     
-    local ID_PRE_BUILD_BLOCK = block.index("quickedit:prebuildblock")
-    local minX, maxX, minY, maxY, minZ, maxZ = funcUtils.__minmax__(pos1, pos2)
+--     local ID_PRE_BUILD_BLOCK = block.index("quickedit:prebuildblock")
+--     local minX, maxX, minY, maxY, minZ, maxZ = funcUtils.__minmax__(pos1, pos2)
     
-    for dy = minY, maxY, 1 do
-        for dz = minZ, maxZ, 1 do
-            for dx = minX, maxX, 1 do
-                if is_solid_at(dx, dy, dz) or block.get(dx, dy, dz) ~= ID_NULL_BLOCK then
-                    containerBlocks:add(dx,dy,dz,block.get(dx,dy,dz))
-                    block.set(dx, dy, dz, ID_PRE_BUILD_BLOCK)
-                end
-            end
-        end
-    end
-    session:add(containerBlocks:getAll())
-end
+--     for dy = minY, maxY, 1 do
+--         for dz = minZ, maxZ, 1 do
+--             for dx = minX, maxX, 1 do
+--                 if is_solid_at(dx, dy, dz) or block.get(dx, dy, dz) ~= ID_NULL_BLOCK then
+--                     containerBlocks:add(dx,dy,dz,block.get(dx,dy,dz))
+--                     block.set(dx, dy, dz, ID_PRE_BUILD_BLOCK)
+--                 end
+--             end
+--         end
+--     end
+--     session:add(containerBlocks:getAll())
+-- end
 
 
 function preBuild.undo(session)

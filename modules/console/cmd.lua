@@ -36,13 +36,15 @@ console.add_command(
         local cont = unpack(ssn:get(ssn:size()))
     
         for index = 1, #cont, 1 do
+
+            local id_block = container:get_bag()[math.random(1, #container:get_bag())] 
             
             local elements = cont[index]
             block.set(
                 elements.x, 
                 elements.y, 
                 elements.z, 
-                container:get_bag()
+                id_block
             )
     
         end

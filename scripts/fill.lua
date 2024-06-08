@@ -1,4 +1,4 @@
-local editor = require("quickedit:editor_session")
+local editor = require("quickedit:build/mainBuild")
 local container = require('quickedit:utils/container')
 
 local click_fill = 0
