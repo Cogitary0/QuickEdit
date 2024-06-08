@@ -148,25 +148,25 @@ function preBuild.preCuboid(pos1, pos2, filled, containerBlocks, session)
     if not filled then
         for dx = x0, x1 do
             for dz = z0, z1 do
-                containerBlocks:add(dx,y0,dz, block.get(dx,y0,dz))
-                containerBlocks:add(dx,y1,dz, block.get(dx,y1,dz))
+                containerBlocks:add(dx, y0, dz, block.getdx, y0, dz)
                 block.set(dx, y0, dz, id_block)
+                containerBlocks:add(dx,y1,dz, block.get(dx,y1,dz))
                 block.set(dx, y1, dz, id_block)
             end
 
             for dy = y0 + 1, y1 - 1 do
-                containerBlocks:add(dx,y1,z0, block.get(dx,y1,z0))
-                containerBlocks:add(dx,y1,z1, block.get(dx,y1,z1))
+                containerBlocks:add(dx, dy, z0, block.get(dx, dy, z0))
                 block.set(dx, dy, z0, id_block)
+                containerBlocks:add(dx, dy, z1, block.get(dx, dy, z1))
                 block.set(dx, dy, z1, id_block)
             end
         end
 
         for dy = y0 + 1, y1 - 1 do
             for dz = z0 + 1, z1 - 1 do
-                containerBlocks:add(x0,y1,dz, block.get(x1,y1,dz))
-                containerBlocks:add(x1,y1,dz, block.get(x0,y1,dz))
+                containerBlocks:add(x0, dy, dz, block.get(x0, dy, dz))
                 block.set(x0, dy, dz, id_block)
+                containerBlocks:add(x1, dy, dz, block.get(x1, dy, dz))
                 block.set(x1, dy, dz, id_block)
             end
         end
@@ -337,6 +337,7 @@ function preBuild.preSphere(pos1, pos2, filled, containerBlocks, session)
     end
     session:add(containerBlocks:getAll())
 end
+
 
 function preBuild.cylinder(pos1, pos2, filled, containerBlocks, sessio)
     local x0, y0, z0 = unpack(pos1)

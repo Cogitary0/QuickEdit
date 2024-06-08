@@ -1,6 +1,6 @@
 {
     "texture": "prebuildblock",
-    "draw-group": 3,
+    "draw-group": 2,
     "light-passing": true,
     "sky-light-passing": true,
     "obstacle": false,

@@ -52,6 +52,7 @@ function Session:clear()
 end
 
 
+-- пиздец
 function Session:rotate(axis, angle)
 
     local rad = angle * const.DEGREE
@@ -83,7 +84,7 @@ function Session:rotate(axis, angle)
             local y = value.x * sinAngle + value.y * cosAngle
             value.x = x
             value.y = y
-                
+
         else
             error("Invalid axis")
     

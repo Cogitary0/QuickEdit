@@ -85,7 +85,7 @@ console.add_command(
 
 
 console.add_command(
-    "q.set command:str filled:str",
+    "q.set command:str filled:str=false",
     "set <pos1> && <pos2>",
 
     function (args)
@@ -121,6 +121,15 @@ console.add_command(
 
 
 console.add_command(
+    "q.laser",
+    "Give laser",
+    function()
+        inventory.add(0, item.index('quickedit:laser'), 1)
+    end
+)
+
+
+console.add_command(
     "q.ter",
     "Give terraformer",
     function()
@@ -150,9 +159,9 @@ console.add_command(
         local mode = arg[1]
         if const.MODES[mode] ~= nil then
             container:get().ter_mode = mode
-            return 'mode: ' .. mode .. " " .. const.MODES[mode]
+            return 'mode: (' .. mode .. ") " .. const.MODES[mode]
         else
-            return 'mode: ' .. mode .. ' not found'
+            return 'mode: (' .. mode .. ') not found'
         end
     end
 )
@@ -177,7 +186,7 @@ console.add_command(
         if id_block > -1 and id_block <= block.defs_count() then
             return "Add block: " .. block.name(id_block)
         else
-            return 'block: ' .. id_block .. ' was not found'
+            return 'block: (' .. id_block .. ') was not found'
         end
     end
 )
@@ -194,7 +203,7 @@ console.add_command(
             table.remove(container:get().bag, postionBlock)
             return "Del block: " .. del_block
         else
-            return 'block: ' .. postionBlock .. ' was not found'
+            return 'block: (' .. postionBlock .. ') was not found'
         end
     end
 )
