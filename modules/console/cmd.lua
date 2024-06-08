@@ -33,7 +33,21 @@ console.add_command(
     "build",
     function()
         
-        --
+        local cont = unpack(ssn:get(ssn:size()))
+    
+        for index = 1, #cont, 1 do
+            
+            local elements = cont[index]
+            block.set(
+                elements.x, 
+                elements.y, 
+                elements.z, 
+                container:get_bag()
+            )
+    
+        end
+    
+        ssn:remove(ssn:size())
 
     end
 )
@@ -61,7 +75,7 @@ console.add_command(
     function (args, kwargs)
 
         local command, filled = unpack(args)
-        print(filled)
+
         if #container:get().pos1 ~= 0 and #container:get().pos2 ~= 0 then
 
             for key, func in pairs(editorSession) do
@@ -104,6 +118,15 @@ console.add_command(
     function(mode)
         container:get().ter_mode = mode[1]
         return 'mode: ' .. mode[1]
+    end
+)
+
+
+console.add_command(
+    "q.bag",
+    "give terraformer",
+    function()
+        inventory.add(0, item.index('quickedit:bag'), 1)
     end
 )
 
