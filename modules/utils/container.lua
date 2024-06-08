@@ -5,7 +5,9 @@ local new_container = {
     pos2 = {},
     bag = {},
     ter_mode = 1,
+
     ter_radius = 1
+
 }
 
 function container:send_bag(data)
@@ -18,6 +20,10 @@ end
 
 function container:get_mode()
     return new_container.ter_mode
+end
+
+function container:get_radius()
+    return new_container.radius
 end
 
 function container:get()
