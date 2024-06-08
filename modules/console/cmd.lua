@@ -1,6 +1,7 @@
 local editorSession = require("quickedit:editor_session")
 local preBuild = require("quickedit:build/preBuild")
 local container = require("quickedit:utils/container")
+local const = require("quickedit:constants")
 local __container__ = require("quickedit:container/blocks")
 local __session__ = require("quickedit:container/session") 
 local ssn = __session__.new()
@@ -9,7 +10,7 @@ local ssn = __session__.new()
 console.add_command(
     "q.pos1",
     "set pos1",
-    function (args, kwargs)
+    function ()
         local x, y, z = player.get_pos()
         print("pos1 set")
         container:get().pos1 = {x,y,z}
@@ -20,7 +21,7 @@ console.add_command(
 console.add_command(
     "q.pos2",
     "set pos2",
-    function (args, kwargs)
+    function ()
         local x, y, z = player.get_pos()
         print("pos2 set")
         container:get().pos2 = {x, y, z}
@@ -65,19 +66,6 @@ console.add_command(
             editorSession.undo(ssn)
 
         end
-
-    end
-)
-
-console.add(
-    "q.rot angle:num",
-    "rotate preBuild",
-
-    function(args)
-        
-        local angle = unpack(args)
-
-        
 
     end
 )
@@ -130,9 +118,10 @@ console.add_command(
 console.add_command(
     "q.ter.mode mode:int",
     "change terraformer mode",
-    function(mode)
-        container:get().ter_mode = mode[1]
-        return 'mode: ' .. mode[1]
+    function(arg)
+        local mode = arg[1]
+        container:get().ter_mode = mode
+        return 'mode: ' .. mode .. " " .. const.MODES[mode]
     end
 )
 
