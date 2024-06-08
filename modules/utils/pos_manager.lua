@@ -1,3 +1,5 @@
+local cont = require 'quickedit:utils/container'
+local tblu = require 'quickedit:utils/table_utils'
 local module = {}
 
 function module.min_y(meownatic)
@@ -9,6 +11,33 @@ function module.min_y(meownatic)
         end
     end
     return minimal
+end
+
+function module.change_pos1(x, y, z)
+    local x1, y1, z1 = unpack(cont:get().pos1)
+    print(block.index('quickedit:pos1'))
+    if tblu.equals(cont:get().pos1, {x, y, z, block.get(x, y, z), block.get_rotation(x, y, z)}) == false then
+        local blockt = cont:get().pos1
+        block.set(x1, y1, z1, blockt[4], blockt[5])
+
+        local id = block.get(x, y, z)
+        local rotation = block.get_rotation(x, y, z)
+        block.set(x, y, z, block.index('quickedit:pos1'), 0)
+        cont:get().pos1 = {x, y, z, id, rotation}
+    end
+end
+
+function module.change_pos2(x, y, z)
+    local x1, y1, z1 = unpack(cont:get().pos2)
+    if tblu.equals(cont:get().pos2, {x, y, z, block.get(x, y, z), block.get_rotation(x, y, z)}) == false then
+        local blockt = cont:get().pos2
+        block.set(x1, y1, z1, blockt[4], blockt[5])
+
+        local id = block.get(x, y, z)
+        local rotation = block.get_rotation(x, y, z)
+        block.set(x, y, z, block.index('quickedit:pos2'), 0)
+        cont:get().pos2 = {x, y, z, id, rotation}
+    end
 end
 
 function module.max_y(meownatic)
