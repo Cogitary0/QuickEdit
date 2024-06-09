@@ -3,7 +3,7 @@ local preBuild = require("quickedit:build/preBuild")
 
 local editorSession = {}
 
-function editorSession.fill(pos1, pos2, filled, container, session) preBuild.preCuboid(pos1, pos2, true, container, session) end
+-- function editorSession.fill(pos1, pos2, filled, container, session) preBuild.preCuboid(pos1, pos2, true, container, session) end
 
 function editorSession.cuboid(pos1, pos2, filled, container, session) preBuild.preCuboid(pos1, pos2, filled, container, session) end
 
