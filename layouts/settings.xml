@@ -1,0 +1,21 @@
+<container size='1200,700' hover-color='#808080' >
+
+    <image
+        pos='0,636' 
+        size='128,64' 
+        color='#171616'
+        hover-color='#363434' 
+        pressed-color='#6e6a6a'
+        interactive='true' 
+        onclick='btn_up()'
+        text='ds'
+        tooltip=''> 
+        
+    </image>
+    <label id='label_' pos='32,661' color='#FFFFFFFF'>set</label>
+    
+    <checkbox pos='0,500' color='#FFFFFFFF'>das</checkbox>
+    
+
+
+</container>
