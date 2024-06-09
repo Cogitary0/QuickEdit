@@ -84,7 +84,7 @@ function preBuild.undo(session)
 end
 
 
-function preBuild.build(session, replaceQ, ssn)
+function preBuild.build(session, replaceQ)
 
     local bag = container:get().bag
     local use, replace = {}, {}
