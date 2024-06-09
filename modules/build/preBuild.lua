@@ -84,13 +84,13 @@ function preBuild.undo(session)
 end
 
 
-function preBuild.build(session, replaceQ)
+function preBuild.build(session, replaceQ, ssn)
 
     local bag = container:get().bag
     local use, replace = {}, {}
 
     if replaceQ == false then
-        if ssn:size() > 0 then
+        if session:size() > 0 then
             local cont = unpack(session:get(session:size()))
             for index = 1, #cont, 1 do
 
