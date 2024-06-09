@@ -89,57 +89,21 @@ function preBuild.build(session, replaceQ)
     local bag = container:get().bag
     local use, replace = {}, {}
 
-    if replaceQ == false then
-        if session:size() > 0 then
-            local cont = unpack(session:get(session:size()))
-            for index = 1, #cont, 1 do
+    if session:size() > 0 then
+        local cont = unpack(session:get(session:size()))
+        for index = 1, #cont, 1 do
 
-                local id_block = bag[math.random(1, #bag)] 
-                
-                local elements = cont[index]
-                block.set(
-                    elements.x, 
-                    elements.y, 
-                    elements.z, 
-                    id_block
-                )
+            local id_block = bag[math.random(1, #bag)] 
+            
+            local elements = cont[index]
+            block.set(
+                elements.x, 
+                elements.y, 
+                elements.z, 
+                id_block
+            )
 
-            end
         end
-
-    else
-        for it = 1, #bag, 1 do
-        
-            if it % 2 ~= 0 then
-                
-                table.insert(use, bag[it])
-    
-            else
-    
-                table.insert(replace, bag[it])
-    
-            end
-    
-        end
-
-        local x2, y2, z2 = unpack(container.get().pos2)
-        local x1, y1, z1 = unpack(container.get().pos1)
-
-        for dx = math.min(x1, x2), math.max(x1, x2) do
-            for dy = math.min(y1, y2), math.max(y1, y2) do
-                for dz = math.min(z1, z2), math.max(z1, z2) do
-                    local indx_block = tblu.find(replace, block.get(dx, dy, dz))
-                    print(replace[1], indx_block, block.get(dx, dy, dz))
-                    if indx_block ~= nil then
-                        block.set(
-                            dx, dy, dz,
-                            use[indx_block]
-                        )
-                    end
-                end
-            end
-        end
-
     end
 
     session:remove(session:size())

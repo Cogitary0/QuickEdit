@@ -397,9 +397,25 @@ function mainBuild.cylinder(pos1, pos2, use, filled)
 end
 
 
-function mainBuild.replace(pos1, pos2, use, replace)
+function mainBuild.replace(pos1, pos2, bag)
+
     local x0, y0, z0 = unpack(pos1)
     local x1, y1, z1 = unpack(pos2)
+    local use, replace = {}, {}
+
+    for it = 1, #bag, 1 do
+        
+        if it % 2 ~= 0 then
+            
+            table.insert(use, bag[it])
+        
+        else
+
+            table.insert(replace, bag[it])
+
+        end    
+
+    end
 
     x0, y0, z0, x1, y1, z1 = funcUtils.__get_selection_bounds__(pos1, pos2)
 
@@ -418,7 +434,7 @@ function mainBuild.replace(pos1, pos2, use, replace)
             end
         end
 
-        for j = 0, 3, 1 do block.set(x0, y0 + j, z0, 0) end
+        -- for j = 0, 3, 1 do block.set(x0, y0 + j, z0, 0) end
 
     end
 

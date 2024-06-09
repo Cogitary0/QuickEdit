@@ -15,7 +15,7 @@ console.add_command(
         local x, y, z = player.get_pos()
         x, y, z = math.floor( x ), math.floor( y ), math.floor( z )
         psm.change_pos1(x, y, z)
-        return "pos1:" .. " " .. "(" .. x .. ", " .. y .. ", " .. z .. ")"
+        return "[QE]\t pos1:" .. " " .. "(" .. x .. ", " .. y .. ", " .. z .. ")"
     end
 )
 
@@ -27,7 +27,7 @@ console.add_command(
         local x, y, z = player.get_pos()
         x, y, z = math.floor( x ), math.floor( y ), math.floor( z )
         psm.change_pos2(x, y, z)
-        return "pos2:" .. " " .. "(" .. x .. ", " .. y .. ", " .. z .. ")"
+        return "[QE]\t pos2:" .. " " .. "(" .. x .. ", " .. y .. ", " .. z .. ")"
     end
 )
 
@@ -39,21 +39,10 @@ console.add_command(
         
         if ssn:size() > 0 then
             
-            editorSession.build(ssn, false)
+            editorSession.build(ssn)
 
         end
 
-    end
-)
-
-
-console.add_command(
-    "q.build.replace",
-    "Replace",
-    function()
-        
-        editorSession.build(ssn, true)
-        
     end
 )
 
@@ -108,6 +97,7 @@ console.add_command(
             for key, func in pairs(editorSession) do
 
                 if key == command then
+
                     local cont = __container__.new()
 
                     func(
@@ -123,7 +113,8 @@ console.add_command(
                 end
 
             end
-            return 'command not found'
+
+            return '[QE]\t command not found'
 
         end
 
@@ -148,6 +139,7 @@ console.add_command(
     end
 )
 
+
 console.add_command(
     "q.ter.radius radius:int",
     "Set radius build",
@@ -155,9 +147,9 @@ console.add_command(
         local radius = arg[1]
         if radius > 0 then
             container:get().ter_radius = radius
-            return "Radius: " .. radius
+            return "[QE]\t Radius: " .. radius
         else
-            return "The radius must be greater than 0"
+            return "[QE]\t The radius must be greater than 0"
         end
     end
 )
@@ -170,9 +162,9 @@ console.add_command(
         local mode = arg[1]
         if const.MODES[mode] ~= nil then
             container:get().ter_mode = mode
-            return 'mode: (' .. mode .. ") " .. const.MODES[mode]
+            return '[QE]\t mode: (' .. mode .. ") " .. const.MODES[mode]
         else
-            return 'mode: (' .. mode .. ') not found'
+            return '[QE]\t mode: (' .. mode .. ') not found'
         end
     end
 )
@@ -195,9 +187,9 @@ console.add_command(
         local id_block = arg[1]
         table.insert(container:get().bag, id_block)
         if id_block > -1 and id_block <= block.defs_count() then
-            return "Add block: " .. block.name(id_block)
+            return "[QE]\t Add block: " .. block.name(id_block)
         else
-            return 'block: (' .. id_block .. ') was not found'
+            return '[QE]\t block: (' .. id_block .. ') was not found'
         end
     end
 )
@@ -212,9 +204,9 @@ console.add_command(
         local del_block = container:get().bag[postionBlock]
         if del_block ~= nil then
             table.remove(container:get().bag, postionBlock)
-            return "Del block: " .. del_block
+            return "[QE]\t Del block: " .. del_block
         else
-            return 'block: (' .. postionBlock .. ') was not found'
+            return '[QE]\t block: (' .. postionBlock .. ') was not found'
         end
     end
 )
