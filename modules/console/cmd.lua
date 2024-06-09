@@ -51,12 +51,10 @@ console.add_command(
     "q.build.replace",
     "Replace",
     function()
-        
-        if ssn:size() > 0 then
-            
-            editorSession.build(ssn, true)
 
-        end
+            
+        editorSession.build(ssn, true)
+
 
     end
 )
