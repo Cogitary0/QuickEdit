@@ -51,11 +51,9 @@ console.add_command(
     "q.build.replace",
     "Replace",
     function()
-
-            
+        
         editorSession.build(ssn, true)
-
-
+        
     end
 )
 
