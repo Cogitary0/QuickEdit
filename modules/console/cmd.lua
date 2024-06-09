@@ -12,7 +12,7 @@ console.add_command(
     "q.pos1",
     "Set pos1",
     function ()
-        local x, y, z = player.get_pos()
+        local x, y, z = player.get_pos() 
         x, y, z = math.floor( x ), math.floor( y ), math.floor( z )
         psm.change_pos1(x, y, z)
         return "[QE]\t pos1:" .. " " .. "(" .. x .. ", " .. y .. ", " .. z .. ")"
