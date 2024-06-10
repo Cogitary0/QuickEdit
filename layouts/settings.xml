@@ -1,22 +1,21 @@
-<container size='1200,700' hover-color='#808080' >
+<container size='1200,900'>
 
-    <image
-        pos='0,636' 
-        size='128,64' 
-        color='#171616'
-        hover-color='#363434' 
-        pressed-color='#6e6a6a'
-        interactive='true' 
-        onclick='btn_up()'
-        text='ds'
-        tooltip=''> 
-        
-    </image>
     
-    <label id='label_' pos='32,661' color='#FFFFFFFF'>set</label>
+    <panel pos="100, 100" size="1000,700">
 
-    <checkbox pos='0,500' color='#FFFFFFFF'>das</checkbox>
-    
+    </panel>
 
+    <panel size="250,100" pos="170, 200">
+        <label id='radius_lb'>radius:1</label>
+        <trackbar id='radius' 
+            min='1' max='50' value='1' step='1' consumer="radius">
+        </trackbar>
+        <label id='mode_lb'>mode:1</label>
+        <trackbar id='mode' 
+            min='1' max='7' value='1' step='1' consumer="mode">
+        </trackbar>
+    </panel>
 
+    <checkbox id='filled' pos='170,700' color='#FFFFFFFF' consumer='filled'></checkbox>
+    <label id='filled_lb' pos='210,710' color='#FFFFFFFF'>filled</label>
 </container>

@@ -27,7 +27,7 @@ function on_use_on_block(x, y, z)
     if mode == 1 then
         editor.paint({x-radius, y-radius, z-radius}, {x+radius, y+radius, z+radius}, container:get_bag())
     elseif mode == 2 then
-        editor.sphere({x-radius, y-radius, z-radius}, {x+radius, y+radius, z+radius}, container:get_bag())
+        editor.sphere({x-radius, y-radius, z-radius}, {x+radius, y+radius, z+radius}, container:get_bag(), true)
     elseif mode == 3 then
         editor.fill({x-radius, y-radius, z-radius}, {x+radius, y+radius, z+radius}, container:get_bag())
     elseif mode == 5 then

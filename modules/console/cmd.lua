@@ -7,6 +7,15 @@ local __container__ = require("quickedit:container/blocks")
 local __session__ = require("quickedit:container/session") 
 local ssn = __session__.new()
 
+local function split_string(inp)
+    local words = {}
+
+    for word in inp:gmatch("%S+") do
+        table.insert(words, word)
+    end
+
+    return words
+end
 
 console.add_command(
     "q.pos1",
@@ -85,13 +94,18 @@ console.add_command(
 
 
 console.add_command(
-    "q.set command:str filled:str",
+    "q.set command:str",
     "set <pos1> && <pos2>",
 
     function (args)
 
-        local command, filled = unpack(args)
-
+        local command, filled = split_string(args[1])[1], split_string(args[1])[2]
+        if filled == nil then
+            filled = container:get().filled
+        else
+            filled = filled == 'true'
+        end
+        print(command)
         if #container:get().pos1 ~= 0 and #container:get().pos2 ~= 0 then
 
             for key, func in pairs(editorSession) do
@@ -180,13 +194,13 @@ console.add_command(
 
 
 console.add_command(
-    "q.bag.add id_block:int",
+    "q.bag.add id_block:str",
     "Add block in bag",
     function(arg)
 
         local id_block = arg[1]
-        table.insert(container:get().bag, id_block)
-        if id_block > -1 and id_block <= block.defs_count() then
+        table.insert(container:get().bag, block.index(id_block))
+        if block.index(id_block) > -1 and block.index(id_block) <= block.defs_count() then
             return "[QE]\t Add block: " .. block.name(id_block)
         else
             return '[QE]\t block: (' .. id_block .. ') was not found'
