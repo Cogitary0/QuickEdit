@@ -7,6 +7,7 @@ local container = require("quickedit:utils/container")
 4. Наслоение тортиков
 5. Вращаем спиннер
 6. Replace
+7. Smooth
 ]]--
 
 
@@ -33,6 +34,8 @@ function on_use_on_block(x, y, z)
         rotate(x, y, z)
     elseif mode == 6 then
         editor.replace({x-radius, y-radius, z-radius}, {x+radius, y+radius, z+radius}, container:get_bag())
+    elseif mode == 7 then
+        editor.smooth({x-radius, y-radius, z-radius}, {x+radius, y+radius, z+radius}, radius)
     else
         editor.layering(x, y, z, radius)
     end

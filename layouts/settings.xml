@@ -12,8 +12,9 @@
         tooltip=''> 
         
     </image>
-    <label id='label_' pos='32,661' color='#FFFFFFFF'>set</label>
     
+    <label id='label_' pos='32,661' color='#FFFFFFFF'>set</label>
+
     <checkbox pos='0,500' color='#FFFFFFFF'>das</checkbox>
     
 

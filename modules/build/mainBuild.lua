@@ -267,7 +267,9 @@ function mainBuild.sphere(pos1, pos2, use, filled)
     if not filled then
 
         for x = -radius, radius, 1 do
+
             for y = -radius, radius, 1 do
+
                 for z = -radius, radius, 1 do
 
                     local dist = x*x + y*y + z*z
@@ -284,6 +286,7 @@ function mainBuild.sphere(pos1, pos2, use, filled)
 
                     end
                 end
+
             end
 
         end
@@ -291,7 +294,9 @@ function mainBuild.sphere(pos1, pos2, use, filled)
     else
 
         for y = -radius, radius, 1 do
+
             for x = -radius, radius, 1 do
+
                 for z = -radius, radius, 1 do
 
                     local dist = x*x + y*y + z*z
@@ -309,6 +314,7 @@ function mainBuild.sphere(pos1, pos2, use, filled)
                     end
 
                 end
+
             end
 
         end
@@ -441,6 +447,68 @@ function mainBuild.replace(pos1, pos2, bag)
 end
 
 
+function mainBuild.smooth(pos1, pos2)
+    
+    local minX, maxX, minY, maxY, minZ, maxZ = funcUtils.__minmax__(pos1, pos2)
+    local smoothFactor = 1 --пиздец
+
+    for dy = minY, maxY do
+
+        for dz = minZ, maxZ do
+
+            for dx = minX, maxX do
+
+                local id_block = block.get(dx, dy, dz)
+
+                if id_block ~= 0 then
+
+                    local count = 0
+                    local airCount = 0
+
+                    for x = -1, 1 do
+
+                        for y = -1, 1 do
+
+                            for z = -1, 1 do
+
+                                local __x = dx + x
+                                local __y = dy + y
+                                local __z = dz + z
+
+                                if __x >= minX and __x <= maxX and __y >= minY and __y <= maxY and __z >= minZ and __z <= maxZ then
+
+                                    local __id_block = block.get(__x, __y, __z)
+
+                                    if __id_block == 0 then
+                                        airCount = airCount + 1
+
+                                    else
+                                        count = count + 1
+
+                                    end
+
+                                end
+
+                            end
+
+                        end
+
+                    end
+
+                    if airCount > count * smoothFactor then
+                        block.set(dx, dy, dz, 0)
+
+                    end
+
+                end
+
+            end
+
+        end
+
+    end
+
+end
 
 
 return mainBuild
