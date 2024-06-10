@@ -444,13 +444,14 @@ function mainBuild.replace(pos1, pos2, bag)
 
     end
 
-end
+end 
 
 
 function mainBuild.smooth(pos1, pos2)
     
     local minX, maxX, minY, maxY, minZ, maxZ = funcUtils.__minmax__(pos1, pos2)
-    local smoothFactor = 1 --пиздец
+
+    local smoothFactor = const.SMOOTHFACTOR["Medium"]
 
     for dy = minY, maxY do
 
@@ -496,7 +497,14 @@ function mainBuild.smooth(pos1, pos2)
                     end
 
                     if airCount > count * smoothFactor then
-                        block.set(dx, dy, dz, 0)
+                        if dy == maxY then
+
+                            if block.get(dx, dy - 1, dz) == 0 then
+                                block.set(dx, dy, dz, 0)
+                            end
+                        else
+                            block.set(dx, dy, dz, 0)
+                        end
 
                     end
 
@@ -509,7 +517,6 @@ function mainBuild.smooth(pos1, pos2)
     end
 
 end
-
 
 return mainBuild
 

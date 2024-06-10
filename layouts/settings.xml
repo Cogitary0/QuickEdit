@@ -1,9 +1,7 @@
 <container size='1200,900'>
 
     
-    <panel pos="100, 100" size="1000,700">
-
-    </panel>
+    <panel pos="100, 100" size="1000,700"></panel>
 
     <panel size="250,100" pos="170, 200">
         <label id='radius_lb'>radius:1</label>
