@@ -1,17 +1,28 @@
 <container size='1200,900'>
 
-    
     <panel pos="100, 100" size="1000,700"></panel>
 
     <panel size="250,100" pos="170, 200">
+
         <label id='radius_lb'>radius:1</label>
-        <trackbar id='radius' 
-            min='1' max='50' value='1' step='1' consumer="radius">
-        </trackbar>
+        <trackbar 
+            id='radius' 
+            min='1' 
+            max='50' 
+            value='1' 
+            step='1' 
+            consumer="radius"/>
+
+
         <label id='mode_lb'>mode:1</label>
-        <trackbar id='mode' 
-            min='1' max='7' value='1' step='1' consumer="mode">
-        </trackbar>
+        <trackbar 
+            id='mode' 
+            min='1' 
+            max='7' 
+            value='1' 
+            step='1' 
+            consumer="mode"/>
+
     </panel>
 
     <checkbox id='filled' pos='170,700' color='#FFFFFFFF' consumer='filled'></checkbox>

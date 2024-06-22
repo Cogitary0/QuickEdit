@@ -451,7 +451,7 @@ function mainBuild.smooth(pos1, pos2)
     
     local minX, maxX, minY, maxY, minZ, maxZ = funcUtils.__minmax__(pos1, pos2)
 
-    local smoothFactor = const.SMOOTHFACTOR["Medium"]
+    local smoothFactor = const.SMOOTHLEVEL["Medium"]
 
     for dy = minY, maxY do
 
@@ -509,7 +509,7 @@ function mainBuild.smooth(pos1, pos2)
                     end
 
                 end
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
             end
 
         end
