@@ -1,16 +1,11 @@
-local const = require 'quickedit:constants'
-local cont = require 'quickedit:utils/container'
-
-function radius(text)
-    document.radius_lb.text = "radius:" .. text
+function on_open()
+    set_page("stgTerra", "settingsTerraformer")
 end
 
-
-function mode(text)
-    document.mode_lb.text = "mode:" .. text .. ' (' .. const.MODES[tonumber(text)] .. ')'
-    cont:get().ter_mode = tonumber(text)
-end
-
-function filled(state)
-    cont:get().filled = state
+function set_page(btn, page)
+    document.stgTerra.enabled = true
+    document.stgLaser.enabled = true
+    document.stgBuild.enabled = true
+    document[btn].enabled = false
+    document.menu.page = page
 end

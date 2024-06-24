@@ -1,30 +1,12 @@
-<container size='1200,900'>
-
-    <panel pos="100, 100" size="1000,700"></panel>
-
-    <panel size="250,100" pos="170, 200">
-
-        <label id='radius_lb'>radius:1</label>
-        <trackbar 
-            id='radius' 
-            min='1' 
-            max='50' 
-            value='1' 
-            step='1' 
-            consumer="radius"/>
 
 
-        <label id='mode_lb'>mode:1</label>
-        <trackbar 
-            id='mode' 
-            min='1' 
-            max='7' 
-            value='1' 
-            step='1' 
-            consumer="mode"/>
-
+<container size='668,418' color='#0F1E2DB2' context='menu'>
+    <panel pos='6' size='250' color='0' interval='1'>
+        <button id='s_aud' onclick='set_page("stgTerra", "settingsTerraformer")'>@Terka</button>
+        <button id='s_gfx' onclick='set_page("stgLaser", "settings_graphics")'>@Laser</button>
+        <button id='s_ctl' onclick='set_page("stgBuild", "settings_controls")'>@Build</button>
     </panel>
+    <pagebox id='menu' pos='260,6' size='400'>
+    </pagebox>
 
-    <checkbox id='filled' pos='170,700' color='#FFFFFFFF' consumer='filled'></checkbox>
-    <label id='filled_lb' pos='210,710' color='#FFFFFFFF'>filled</label>
 </container>

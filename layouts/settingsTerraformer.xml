@@ -1,0 +1,31 @@
+<panel size='400' color='0' interval='1' context='menu'></panel>
+<!-- <container size='668,668' color='#0F1E2DB2'>
+
+    <panel pos="100, 100"></panel>
+
+    <panel size="100" pos="0, 0">
+
+        <label id='radius_lb'>radius:1</label>
+        <trackbar 
+            id='radius' 
+            min='1' 
+            max='50' 
+            value='1' 
+            step='1' 
+            consumer="radius"/>
+
+
+        <label id='mode_lb'>mode:1</label>
+        <trackbar 
+            id='mode' 
+            min='1' 
+            max='7' 
+            value='1' 
+            step='1' 
+            consumer="mode"/>
+
+    </panel>
+
+    <checkbox id='filled' pos='170,700' color='#FFFFFFFF' consumer='filled'></checkbox>
+    <label id='filled_lb' pos='210,710' color='#FFFFFFFF'>filled</label>
+</container> -->

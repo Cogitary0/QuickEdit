@@ -52,48 +52,4 @@ function Session:clear()
 end
 
 
--- пиздец
-function Session:rotate(axis, angle)
-
-    local rad = angle * const.DEGREE
-    local sinAngle = math.sin(rad)
-    local cosAngle = sinAngle + const.HALF_PI
-    local cont = unpack(self.__session__[#self.__session__])
-
-    for index = 1, #cont, 1 do
-        
-        local value = cont[index]
-
-        if axis == "x" then
-
-            local y = value.y * cosAngle - value.z * sinAngle
-            local z = value.y * sinAngle + value.z * cosAngle
-            value.y = y
-            value.z = z
-    
-        elseif axis == "y" then
-    
-            local x = value.x * cosAngle + value.z * sinAngle
-            local z = -value.x * sinAngle + value.z * cosAngle
-            value.x = x
-            value.z = z        
-    
-        elseif axis == "z" then
-    
-            local x = value.x * cosAngle - value.y * sinAngle
-            local y = value.x * sinAngle + value.y * cosAngle
-            value.x = x
-            value.y = y
-
-        else
-            error("Invalid axis")
-    
-        end
-
-    end
-
-end
-
-
-
 return Session
