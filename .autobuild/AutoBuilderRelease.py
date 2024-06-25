@@ -37,7 +37,7 @@ def package_read() -> tuple[str, ...]:
     return (__file)
 
 
-def linear_search(A, key):
+def linear_search(A, key) -> int:
     
         for i in range(len(A)):
             
